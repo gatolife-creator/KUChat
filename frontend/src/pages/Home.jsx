@@ -9,7 +9,7 @@ export const Home = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="container px-4 mt-5 text-center">
+      <div className="container px-4 pt-5 text-center">
         <div className="row gx-5">
           <div className="col">
               <Card

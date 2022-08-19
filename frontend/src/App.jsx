@@ -13,13 +13,11 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Router>
+    <Router>
       <Navbar />
-        <AnimatedRoutes />
-        {/* <button className="btn btn-warning floating">G</button> */}
-      </Router>
-    </div>
+      <AnimatedRoutes />
+      {/* <button className="btn btn-warning floating">G</button> */}
+    </Router>
   );
 }
 

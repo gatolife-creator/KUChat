@@ -13,7 +13,7 @@ export const Contacts = () => {
       exit={{ opacity: 0 }}
     >
       <>
-        <div className="container mt-5">
+        <div className="container pt-5">
           <div className="input-group flex-nowrap">
             <span className="input-group-text" id="addon-wrapping">
               @
