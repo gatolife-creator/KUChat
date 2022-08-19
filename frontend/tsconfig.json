@@ -1,0 +1,17 @@
+{
+  "include": [
+    "src/ts/block.ts",
+    "src/ts/blockchain.ts",
+    "src/ts/market.ts",
+    "src/ts/nft.ts",
+    "src/ts/transaction.ts",
+    "src/ts/wallet.ts",
+    ],
+    "exclude": [
+      "node_modules",
+    ],
+    "compilerOptions": {
+      "strict": true,
+      "outDir": "src/js"
+    },
+  }
