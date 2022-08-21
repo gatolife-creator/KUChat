@@ -27,6 +27,7 @@ export const Chat = (props) => {
 
   useEffect(() => {
     gun.get("blockchain").once((data) => {
+      console.log(blockchain);
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
       blockchain.replaceChain(parsedBlockchain.chain);
       // blockchain.selfDestruct();
