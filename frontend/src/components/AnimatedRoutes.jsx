@@ -6,6 +6,7 @@ import { Signin } from "../pages/Signin";
 import { Contacts } from "../pages/Contacts";
 import { Chat } from "../pages/Chat";
 import { WalletView } from "../pages/Wallet";
+import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
 
 import { Blockchain } from "../js/blockchain";
 import { Wallet } from "../js/wallet";
@@ -39,6 +40,7 @@ export const AnimatedRoutes = () => {
         />
         <Route path="/signin" element={<Signin />} />
         <Route path="/wallet" element={<WalletView wallet={wallet} />} />
+        <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
       </Routes>
     </AnimatePresence>
   );

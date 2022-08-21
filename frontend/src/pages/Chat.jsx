@@ -21,8 +21,6 @@ export const Chat = (props) => {
 
   const [transactions, setTransactions] = useState([]);
 
-  const scrollToBottom = useScrollToBottom();
-
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
   }, [])

@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ContactCard } from "../components/ContactCard";
+import QRCodeReader from "../components/QRCodeReader";
 
 export const Contacts = () => {
   console.log("Contacts");
   const [url, setURL] = useState("");
+  const [state, setState] = useState(false);
 
   return (
     <motion.main
@@ -36,10 +38,9 @@ export const Contacts = () => {
             </Link>
           </div>
           <p>or</p>
-          <button
+          <Link
             className="btn btn-success"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
+            to="/qrcode-reader"
             style={{
               display: "block",
               width: "134px",
@@ -49,7 +50,7 @@ export const Contacts = () => {
             }}
           >
             <i className="bi bi-qr-code-scan" style={{ fontSize: "5em" }}></i>
-          </button>
+          </Link>
 
           <hr />
 
