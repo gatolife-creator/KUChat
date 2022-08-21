@@ -3,14 +3,17 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import Gun from "gun";
-import ScrollToBottom from "react-scroll-to-bottom";
 import { Blockchain } from "../js/blockchain";
 
 // TODO チャットのテストをする際、まずはブロックチェーンを用いずに、リアルタイムでコメントのレンダリングができるかどうかをテストする
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
 
 const gun = Gun({
-  peers: ["http://localhost:3001/gun", "https://kuchat.herokuapp.com/gun", "https://kuchat-test.herokuapp.com/gun"],
+  peers: [
+    "http://localhost:3001/gun",
+    "https://kuchat.herokuapp.com/gun",
+    "https://kuchat-test.herokuapp.com/gun",
+  ],
 });
 
 export const Chat = (props) => {
@@ -23,16 +26,20 @@ export const Chat = (props) => {
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
-  }, [])
+  }, []);
 
   useEffect(() => {
     gun.get("blockchain").once((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
       blockchain.replaceChain(parsedBlockchain.chain);
       // blockchain.selfDestruct();
-      
-      console.log(transactions);
-      setTransactions(blockchain.getTransactionsBetweenTwo(wallet.publicKey, query.get("address")));
+
+      setTransactions(
+        blockchain.getTransactionsBetweenTwo(
+          wallet.publicKey,
+          query.get("address")
+        )
+      );
     });
   }, [blockchain, transactions, wallet.publicKey]);
 
@@ -66,21 +73,19 @@ export const Chat = (props) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <ScrollToBottom>
-          {transactions.map((transaction, index) =>
-            transaction.fromAddress === wallet.publicKey ? (
-              <div className="chat-sentence chat-sentence-right" key={index}>
-                {transaction.message}
-              </div>
-            ) : transaction.fromAddress === query.get("address") ? (
-              <div className="chat-sentence chat-sentence-left" key={index}>
-                {transaction.message}
-              </div>
-            ) : (
-              <React.Fragment key={index}></React.Fragment>
-            )
-          )}
-        </ScrollToBottom>
+        {transactions.map((transaction, index) =>
+          transaction.fromAddress === wallet.publicKey ? (
+            <div className="chat-sentence chat-sentence-right" key={index}>
+              {transaction.message}
+            </div>
+          ) : transaction.fromAddress === query.get("address") ? (
+            <div className="chat-sentence chat-sentence-left" key={index}>
+              {transaction.message}
+            </div>
+          ) : (
+            <React.Fragment key={index}></React.Fragment>
+          )
+        )}
       </motion.main>
       <motion.footer>
         <div className="chat-footer">

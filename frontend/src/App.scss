@@ -27,7 +27,10 @@ main {
     height: 100%;
     padding: 20px 20px 50px;
     background-color: #7494c0;
+    text-align: left;
+    word-break: break-all;
     .chat-sentence {
+        table-layout: fixed;
         display: table;
         max-width: 70%;
         padding: 10px;
