@@ -1,16 +1,13 @@
-import { useState } from "react";
+import React from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import Gun from "gun";
+import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
 import { Blockchain } from "../js/blockchain";
-import { Wallet } from "../js/wallet";
-import { ChatContent } from "../components/ChatContent";
-import { isURL } from "../ts/utility";
 
 // TODO チャットのテストをする際、まずはブロックチェーンを用いずに、リアルタイムでコメントのレンダリングができるかどうかをテストする
-// TODO なお、p2pの実現のために、使用するライブラリはgun.jsを想定している
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
-// TODO チェーンの交換の際に、ブロックチェーンをJSON形式に変えているため、thisが使えない。もしかするとstaticを使ったほうがいいのかもしれない。
 
 const gun = Gun({
   peers: ["http://localhost:3001/gun", "https://kuchat.herokuapp.com/gun"],
@@ -18,36 +15,27 @@ const gun = Gun({
 
 export const Chat = (props) => {
   const { blockchain, wallet } = props;
-  console.log("Chat started");
-
-  // const blockchain = new Blockchain();
-  // const wallet = new Wallet(blockchain);
   const location = useLocation();
   const search = location.search;
   const query = new URLSearchParams(search);
 
-  let transactions = [];
+  const [transactions, setTransactions] = useState([]);
 
-  gun.get("blockchain").once((data) => {
-    const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
-    blockchain.replaceChain(parsedBlockchain.chain);
-    console.log(blockchain);
-    console.log("replaced");
-  });
+  const scrollToBottom = useScrollToBottom();
 
-  gun.get("blockchain").on((data) => {
-    const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
-    if (
-      parsedBlockchain.isChainValid() &&
-      parsedBlockchain.chain.length > blockchain.chain.length
-    ) {
-      console.log("newline");
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, [])
+
+  useEffect(() => {
+    gun.get("blockchain").once((data) => {
+      const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
       blockchain.replaceChain(parsedBlockchain.chain);
-      console.log(blockchain);
-      transactions = blockchain.getTransactionsOfAddress("test");
-      console.log("test transactions:", transactions);
-    }
-  });
+      // blockchain.selfDestruct();
+
+      setTransactions(blockchain.getTransactionsBetweenTwo(wallet.publicKey, query.get("address")));
+    });
+  }, [blockchain, transactions, wallet.publicKey]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -56,9 +44,17 @@ export const Chat = (props) => {
     if (!message.value) return false;
 
     blockchain.minePendingTransactions(wallet.publicKey);
-    const trans = wallet.createTransaction(address.value, 10, {});
+    const trans = wallet.createTransaction(
+      address.value,
+      10,
+      message.value,
+      {}
+    );
     blockchain.addTransaction(trans);
+    blockchain.minePendingTransactions(wallet.publicKey);
 
+    console.log(blockchain);
+    // blockchain.selfDestruct();
     gun.get("blockchain").put({ blockchain: JSON.stringify(blockchain) });
     message.value = "";
   };
@@ -71,7 +67,21 @@ export const Chat = (props) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <ChatContent query={query} transactions={transactions} />
+        <ScrollToBottom>
+          {transactions.map((transaction, index) =>
+            transaction.fromAddress === wallet.publicKey ? (
+              <div className="chat-sentence chat-sentence-right" key={index}>
+                {transaction.message}
+              </div>
+            ) : transaction.fromAddress === query.get("address") ? (
+              <div className="chat-sentence chat-sentence-left" key={index}>
+                {transaction.message}
+              </div>
+            ) : (
+              <React.Fragment key={index}></React.Fragment>
+            )
+          )}
+        </ScrollToBottom>
       </motion.main>
       <motion.footer>
         <div className="chat-footer">

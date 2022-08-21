@@ -9,7 +9,7 @@ export const WalletView = (props) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* {wallet.publicKey} */}
+      {wallet.publicKey}
       <h1>{wallet.getBalance()}</h1>
     </motion.main>
   );

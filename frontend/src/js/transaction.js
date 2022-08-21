@@ -5,10 +5,11 @@ var crypto_js_1 = require("crypto-js");
 var elliptic_1 = require("elliptic");
 var secp256k1 = new elliptic_1.ec("secp256k1");
 var Transaction = /** @class */ (function () {
-    function Transaction(fromAddress, toAddress, amount, nft) {
+    function Transaction(fromAddress, toAddress, amount, message, nft) {
         this.fromAddress = fromAddress;
         this.toAddress = toAddress;
         this.amount = amount;
+        this.message = message;
         this.timestamp = Date.now();
         this.signature = "";
         this.nft = nft;
@@ -17,6 +18,7 @@ var Transaction = /** @class */ (function () {
         return (0, crypto_js_1.SHA256)(this.fromAddress +
             this.toAddress +
             this.amount +
+            this.message +
             this.timestamp +
             this.nft).toString();
     };

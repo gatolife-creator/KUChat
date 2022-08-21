@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ContactCard } from "../components/ContactCard";
 
 export const Contacts = () => {
+  console.log("Contacts");
   const [url, setURL] = useState("");
 
   return (

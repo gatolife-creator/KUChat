@@ -1,25 +1,28 @@
+import { useEffect } from "react";
 import { isURL } from "../ts/utility";
 
 export const ChatContent = (props) => {
-  console.log("ChatContent");
   const { query, transactions } = props;
-  
+  // useEffect(() => {
+  //   console.log("ChatContent");
+  // }, [transactions]);
+
   return (
     <>
       {transactions.map((transaction) =>
-        transaction.fromAddress === "test" ? (
+        transaction.fromAddress === "System" ? (
           <div className="chat-sentence chat-sentence-right">
-            {isURL(transaction.message) ? (
+            {isURL(transaction.amount) ? (
               <a href={transaction.message} target="_blank" rel="noreferrer">
-                {transaction.message}
+                {transaction.amount}
               </a>
             ) : (
-              <>{transaction.message}</>
+              <>{transaction.amount}</>
             )}
           </div>
         ) : transaction.fromAddress === query.get("address") ? (
           <div className="chat-sentence chat-sentence-left">
-            {transaction.message}
+            {transaction.amount}
           </div>
         ) : (
           <></>

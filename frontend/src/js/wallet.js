@@ -10,8 +10,8 @@ var Wallet = /** @class */ (function () {
         this.keyPair = ec.genKeyPair();
         this.publicKey = this.keyPair.getPublic("hex");
     }
-    Wallet.prototype.createTransaction = function (recipient, amount, nft) {
-        var transaction = new transaction_1.Transaction(this.publicKey, recipient, amount, nft);
+    Wallet.prototype.createTransaction = function (recipient, amount, message, nft) {
+        var transaction = new transaction_1.Transaction(this.publicKey, recipient, amount, message, nft);
         var signedTransaction = this.sign(transaction);
         return signedTransaction;
     };
@@ -52,6 +52,14 @@ var Wallet = /** @class */ (function () {
         var sig = this.keyPair.sign(hashTx, "base64");
         transaction.signature = sig.toDER("hex");
         return transaction;
+    };
+    Wallet.restoreWalletFromPrivateKey = function (privateKey, blockchain) {
+        var keyPair = ec.keyFromPrivate(privateKey);
+        var publicKey = keyPair.getPublic("hex");
+        var wallet = new Wallet(blockchain);
+        wallet.keyPair = keyPair;
+        wallet.publicKey = publicKey;
+        return wallet;
     };
     Wallet.prototype.update = function (blockchain) {
         this.blockchain = blockchain;

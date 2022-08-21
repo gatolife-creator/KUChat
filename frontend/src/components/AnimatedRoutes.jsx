@@ -9,9 +9,21 @@ import { WalletView } from "../pages/Wallet";
 
 import { Blockchain } from "../js/blockchain";
 import { Wallet } from "../js/wallet";
+import { ec as EC } from "elliptic";
+
+const ec = new EC("secp256k1");
 
 const blockchain = new Blockchain();
-const wallet = new Wallet(blockchain);
+let wallet = new Wallet(blockchain);
+if (localStorage.getItem("privateKey")) {
+  wallet = Wallet.restoreWalletFromPrivateKey(
+    localStorage.getItem("privateKey"),
+    blockchain
+  );
+} else {
+  wallet = new Wallet(blockchain);
+  localStorage.setItem("privateKey", wallet.keyPair.getPrivate("hex"));
+}
 
 export const AnimatedRoutes = () => {
   const location = useLocation();

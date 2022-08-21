@@ -35,7 +35,7 @@ var Blockchain = /** @class */ (function () {
         this.pendingTransactions.push(transaction);
     };
     Blockchain.prototype.minePendingTransactions = function (miningRewardAddress) {
-        var rewardTx = new transaction_1.Transaction("System", miningRewardAddress, 100);
+        var rewardTx = new transaction_1.Transaction("System", miningRewardAddress, 100, "reward");
         this.pendingTransactions.push(rewardTx);
         var block = new block_1.Block(this.getLatestBlock().hash, this.pendingTransactions);
         block.validateBlock();
@@ -71,6 +71,20 @@ var Blockchain = /** @class */ (function () {
         }
         return transactions;
     };
+    Blockchain.prototype.getTransactionsBetweenTwo = function (address1, address2) {
+        var transactions = [];
+        for (var _i = 0, _a = this.chain; _i < _a.length; _i++) {
+            var block = _a[_i];
+            for (var _b = 0, _c = block.transactions; _b < _c.length; _b++) {
+                var trans = _c[_b];
+                if ((trans.fromAddress === address1 && trans.toAddress === address2) ||
+                    (trans.fromAddress === address2 && trans.toAddress === address1)) {
+                    transactions.push(trans);
+                }
+            }
+        }
+        return transactions;
+    };
     Blockchain.prototype.isChainValid = function () {
         /**
          * 一番最初のブロックはそれよりも前のブロックが存在しないので、
@@ -98,11 +112,11 @@ var Blockchain = /** @class */ (function () {
         var tmp = JSON.parse(json);
         var blockchain = Object.assign(new Blockchain(), tmp);
         // 保留中のトランザクションの情報を引き継ぐ
-        var pendingTransations = blockchain.pendingTransactions.map(function (transaction) { return new transaction_1.Transaction(transaction.fromAddress, transaction.toAddress, transaction.amount, transaction.nft); });
+        var pendingTransations = blockchain.pendingTransactions.map(function (transaction) { return new transaction_1.Transaction(transaction.fromAddress, transaction.toAddress, transaction.amount, transaction.message, transaction.nft); });
         // チェーンの情報を引き継ぐ
         var chain = blockchain.chain.map(function (block) {
             var transactions = block.transactions.map(function (transaction) {
-                var tmpTransaction = new transaction_1.Transaction(transaction.fromAddress, transaction.toAddress, transaction.amount, transaction.nft);
+                var tmpTransaction = new transaction_1.Transaction(transaction.fromAddress, transaction.toAddress, transaction.amount, transaction.message, transaction.nft);
                 tmpTransaction.signature = transaction.signature;
                 tmpTransaction.timestamp = transaction.timestamp;
                 return tmpTransaction;
@@ -126,6 +140,10 @@ var Blockchain = /** @class */ (function () {
         if (chain.length <= this.chain.length)
             return false;
         this.chain = chain;
+    };
+    Blockchain.prototype.selfDestruct = function () {
+        this.chain = [];
+        this.pendingTransactions = [];
     };
     return Blockchain;
 }());
