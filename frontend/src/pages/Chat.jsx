@@ -10,7 +10,7 @@ import { Blockchain } from "../js/blockchain";
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
 
 const gun = Gun({
-  peers: [window.location.origin + "/gun"],
+  peers: ["http://localhost:3001/gun", "https://kuchat.herokuapp.com/gun", "https://kuchat-test.herokuapp.com/gun"],
 });
 
 export const Chat = (props) => {
