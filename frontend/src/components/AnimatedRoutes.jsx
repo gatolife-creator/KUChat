@@ -10,9 +10,6 @@ import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
 
 import { Blockchain } from "../js/blockchain";
 import { Wallet } from "../js/wallet";
-import { ec as EC } from "elliptic";
-
-const ec = new EC("secp256k1");
 
 const blockchain = new Blockchain();
 let wallet = new Wallet(blockchain);

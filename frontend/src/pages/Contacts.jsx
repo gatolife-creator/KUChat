@@ -2,12 +2,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ContactCard } from "../components/ContactCard";
-import QRCodeReader from "../components/QRCodeReader";
 
 export const Contacts = () => {
   console.log("Contacts");
   const [url, setURL] = useState("");
-  const [state, setState] = useState(false);
 
   return (
     <motion.main

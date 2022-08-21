@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { QrReader } from "react-qr-reader";
-import { useNavigate } from 'react-router-dom';
 
 class QRCodeReader extends Component {
   state = {
@@ -13,10 +12,7 @@ class QRCodeReader extends Component {
         result: data,
       });
       if(this.state.result.text !== undefined) {
-            // const navication = useNavigate();
               window.location.href = `/chat?address=${this.state.result.text}`;
-            // navication(("/chat?address=" + this.state.result.text));
-        //   console.log(this.state.result.text);
       }
     }
   };

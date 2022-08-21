@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Card } from "../components/Card";
 
 export const Home = () => {

@@ -1,16 +1,16 @@
 import React from "react";
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import Gun from "gun";
-import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
+import ScrollToBottom from "react-scroll-to-bottom";
 import { Blockchain } from "../js/blockchain";
 
 // TODO チャットのテストをする際、まずはブロックチェーンを用いずに、リアルタイムでコメントのレンダリングができるかどうかをテストする
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
 
 const gun = Gun({
-  peers: ["http://localhost:3001/gun", "https://kuchat.herokuapp.com/gun"],
+  peers: [window.location.origin + "/gun"],
 });
 
 export const Chat = (props) => {
