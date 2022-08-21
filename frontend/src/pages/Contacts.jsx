@@ -28,7 +28,7 @@ export const Contacts = () => {
               onChange={(e) => setURL(e.target.value)}
             />
             <Link
-              to={"/chat?address=" + url}
+              to={url}
               className="btn btn-outline-secondary"
               id="button-addon2"
             >
