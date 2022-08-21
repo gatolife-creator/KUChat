@@ -10,7 +10,7 @@ export const WalletView = (props) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <QRCodeSVG className="mt-5" value={"/chat?address=" + wallet.publicKey}></QRCodeSVG>
+      <QRCodeSVG className="mt-5" value={wallet.publicKey}></QRCodeSVG>
       <h1>{wallet.getBalance()}</h1>
     </motion.main>
   );
