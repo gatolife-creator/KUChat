@@ -75,12 +75,26 @@ export const Chat = (props) => {
       >
         {transactions.map((transaction, index) =>
           transaction.fromAddress === wallet.publicKey ? (
-            <div className="chat-sentence chat-sentence-right" key={index}>
-              {transaction.message}
+            <div className="chat-right-wrapper" key={index}>
+              <div className="chat-sentence">{transaction.message}</div>
+              <small className="chat-timestamp">
+                {`${new Date(transaction.timestamp).getMonth() + 1}月${
+                  new Date(transaction.timestamp).getDate()
+                }日${new Date(transaction.timestamp).getHours()}時${
+                  new Date(transaction.timestamp).getMinutes()
+                }分`}
+              </small>
             </div>
           ) : transaction.fromAddress === query.get("address") ? (
-            <div className="chat-sentence chat-sentence-left" key={index}>
-              {transaction.message}
+            <div className="chat-left-wrapper" key={index}>
+              <div className="chat-sentence">{transaction.message}</div>
+              <small className="chat-timestamp">
+                {`${new Date(transaction.timestamp).getMonth() + 1}月${
+                  new Date(transaction.timestamp).getDate()
+                }日${new Date(transaction.timestamp).getHours()}時${
+                  new Date(transaction.timestamp).getMinutes()
+                }分`}
+              </small>
             </div>
           ) : (
             <React.Fragment key={index}></React.Fragment>
