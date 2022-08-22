@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { ContactCard } from "../components/ContactCard";
 
 export const Contacts = (props) => {
-  console.log("Contacts");
   const [url, setURL] = useState("");
   const { wallet } = props;
   const correspondents = wallet.getCorrespondents();

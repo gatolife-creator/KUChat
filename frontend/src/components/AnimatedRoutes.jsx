@@ -23,7 +23,7 @@ const gun = Gun({
 });
 
 const blockchain = new Blockchain();
-let wallet = new Wallet(blockchain);
+let wallet;
 if (localStorage.getItem("privateKey")) {
   wallet = Wallet.restoreWalletFromPrivateKey(
     localStorage.getItem("privateKey"),
@@ -55,7 +55,7 @@ export const AnimatedRoutes = () => {
         <Route path="/contacts" element={<Contacts wallet={wallet} />} />
         <Route
           path="/chat"
-          element={<Chat blockchain={blockchain} wallet={wallet} />}
+          element={<Chat blockchain={blockchain} wallet={wallet} gun={gun}/>}
         />
         <Route path="/signin" element={<Signin />} />
         <Route path="/wallet" element={<WalletView wallet={wallet} />} />
