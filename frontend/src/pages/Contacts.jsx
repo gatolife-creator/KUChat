@@ -3,9 +3,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ContactCard } from "../components/ContactCard";
 
-export const Contacts = () => {
+export const Contacts = (props) => {
   console.log("Contacts");
   const [url, setURL] = useState("");
+  const { wallet } = props;
+  const correspondents = wallet.getCorrespondents();
 
   return (
     <motion.main
@@ -14,7 +16,7 @@ export const Contacts = () => {
       exit={{ opacity: 0 }}
     >
       <>
-        <div className="container pt-5">
+        <div className="container pt-5 center">
           <div className="input-group flex-nowrap">
             <span className="input-group-text" id="addon-wrapping">
               @
@@ -57,21 +59,15 @@ export const Contacts = () => {
             style={{ backgroundColor: "lightgray", padding: "50px" }}
             className="list-group"
           >
-            <ContactCard
-              name="相手のアドレス"
-              date="3 days ago"
-              message="最新のメッセージ"
-            ></ContactCard>
-            <ContactCard
-              name="相手のアドレス"
-              date="3 days ago"
-              message="最新のメッセージ"
-            ></ContactCard>
-            <ContactCard
-              name="相手のアドレス"
-              date="3 days ago"
-              message="最新のメッセージ"
-            ></ContactCard>
+            {correspondents.map((correspondent, index) => (
+              <ContactCard
+                address={correspondent}
+                name={correspondent}
+                date="3 days ago"
+                message="最新のメッセージ"
+                key={index}
+              />
+            ))}
           </div>
         </div>
       </>

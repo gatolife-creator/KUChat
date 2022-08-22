@@ -30,7 +30,7 @@ export const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/contacts" element={<Contacts wallet={wallet} />} />
         <Route
           path="/chat"
           element={<Chat blockchain={blockchain} wallet={wallet} />}

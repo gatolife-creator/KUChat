@@ -8,7 +8,7 @@ export const Navbar = () => {
     >
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          Navbar
+          KUChat
         </Link>
         <button
           className="navbar-toggler"
@@ -25,7 +25,7 @@ export const Navbar = () => {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link active" aria-current="page" to="/">
-                Home
+                ホーム
               </Link>
             </li>
             <li className="nav-item">
@@ -33,50 +33,36 @@ export const Navbar = () => {
                 About
               </Link>
             </li>
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle"
+                to="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                アカウント
+              </Link>
+              <ul className="dropdown-menu dropdown-menu-dark">
+                <li>
+                  <Link className="dropdown-item" to="#">
+                    設定
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/wallet">
+                    ウォレット
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/signin">
+                    サインアウト
+                  </Link>
+                </li>
+              </ul>
+            </li>
           </ul>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDarkDropdown"
-            aria-controls="navbarNavDarkDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNavDarkDropdown">
-            <ul className="navbar-nav">
-              <li className="nav-item dropdown">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Account
-                </Link>
-                <ul className="dropdown-menu dropdown-menu-dark">
-                  <li>
-                    <Link className="dropdown-item" to="#">
-                      Setting
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/wallet">
-                      Wallet
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/signin">
-                      Sign out
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+
           <form className="d-flex" role="search">
             <input
               className="form-control me-2"
