@@ -102,7 +102,7 @@ export const Chat = (props) => {
           )
         )}
         <div
-          className="offcanvas offcanvas-bottom h-300"
+          className="offcanvas offcanvas-bottom"
           tabIndex="-1"
           id="offcanvasBottom"
           aria-labelledby="offcanvasBottomLabel"
