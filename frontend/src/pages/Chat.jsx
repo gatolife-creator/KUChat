@@ -25,10 +25,6 @@ export const Chat = (props) => {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, []);
-
-  useEffect(() => {
     gun.get("blockchain").once((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
       blockchain.replaceChain(parsedBlockchain.chain);

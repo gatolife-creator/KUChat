@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Home } from "../pages/Home";
@@ -10,6 +11,16 @@ import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
 
 import { Blockchain } from "../js/blockchain";
 import { Wallet } from "../js/wallet";
+
+import Gun from "gun";
+
+const gun = Gun({
+  peers: [
+    "http://localhost:3001/gun",
+    "https://kuchat.herokuapp.com/gun",
+    "https://kuchat-test.herokuapp.com/gun",
+  ],
+});
 
 const blockchain = new Blockchain();
 let wallet = new Wallet(blockchain);
@@ -25,6 +36,17 @@ if (localStorage.getItem("privateKey")) {
 
 export const AnimatedRoutes = () => {
   const location = useLocation();
+  const [receivedBlockchain, setReceivedBlockchain] = useState([]);
+
+  useEffect(() => {
+    gun.get("blockchain").once((data) => {
+      const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
+      blockchain.replaceChain(parsedBlockchain.chain);
+      console.log(blockchain);
+      setReceivedBlockchain(parsedBlockchain);
+    });
+  }, []);
+
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
