@@ -102,7 +102,7 @@ export const Chat = (props) => {
           )
         )}
         <div
-          className="offcanvas offcanvas-bottom"
+          className="offcanvas offcanvas-bottom h-300"
           tabIndex="-1"
           id="offcanvasBottom"
           aria-labelledby="offcanvasBottomLabel"
@@ -129,7 +129,6 @@ export const Chat = (props) => {
                 id="inputGroupSelect04"
                 aria-label="Example select with button addon"
               >
-                <option selected>金額</option>
                 <option value="100">100</option>
                 <option value="500">500</option>
                 <option value="1000">1000</option>
