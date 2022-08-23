@@ -18,8 +18,8 @@ export const Chat = (props) => {
   useEffect(() => {
     gun.get("blockchain").once((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
+      parsedBlockchain.selfDestruct()
       blockchain.replaceChain(parsedBlockchain.chain);
-      // blockchain.selfDestruct();
 
       setTransactions(
         blockchain.getTransactionsBetweenTwo(
@@ -61,7 +61,7 @@ export const Chat = (props) => {
         exit={{ opacity: 0 }}
       >
         {transactions.map((transaction, index) =>
-          transaction.fromAddress === wallet.publicKey ? (
+          transaction.from === wallet.publicKey ? (
             <div className="chat-right-wrapper" key={index}>
               <div className="chat-sentence">{transaction.message}</div>
               <small className="chat-timestamp">
@@ -74,7 +74,7 @@ export const Chat = (props) => {
                 ).getMinutes()}分`}
               </small>
             </div>
-          ) : transaction.fromAddress === query.get("address") ? (
+          ) : transaction.from === query.get("address") ? (
             <div className="chat-left-wrapper" key={index}>
               <div className="chat-sentence">{transaction.message}</div>
               <button
@@ -83,7 +83,7 @@ export const Chat = (props) => {
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasBottom"
                 aria-controls="offcanvasBottom"
-                onClick={(e) => setMessage(transaction.message)}
+                onClick={() => setMessage(transaction.message)}
               >
                 <i style={{ fontSize: "14px" }} className="bi bi-heart"></i>
               </button>
@@ -123,9 +123,9 @@ export const Chat = (props) => {
             <strong>
               <em>"{message}"</em>
             </strong>
-            <div class="input-group mt-3">
+            <div className="input-group mt-3">
               <select
-                class="form-select"
+                className="form-select"
                 id="inputGroupSelect04"
                 aria-label="Example select with button addon"
               >
@@ -133,7 +133,7 @@ export const Chat = (props) => {
                 <option value="500">500</option>
                 <option value="1000">1000</option>
               </select>
-              <button class="btn btn-outline-secondary" type="button">
+              <button className="btn btn-outline-secondary" type="button">
                 送信
               </button>
             </div>

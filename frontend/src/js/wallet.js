@@ -60,10 +60,10 @@ var Wallet = /** @class */ (function () {
                 try {
                     for (var _e = (e_2 = void 0, __values(block.transactions)), _f = _e.next(); !_f.done; _f = _e.next()) {
                         var trans = _f.value;
-                        if (trans.fromAddress === this.publicKey) {
+                        if (trans.from === this.publicKey) {
                             balance -= trans.amount;
                         }
-                        else if (trans.toAddress === this.publicKey) {
+                        else if (trans.to === this.publicKey) {
                             balance += trans.amount;
                         }
                     }
@@ -95,7 +95,7 @@ var Wallet = /** @class */ (function () {
                 try {
                     for (var _e = (e_4 = void 0, __values(block.transactions)), _f = _e.next(); !_f.done; _f = _e.next()) {
                         var trans = _f.value;
-                        if (trans.fromAddress === this.publicKey || trans.toAddress === this.publicKey) {
+                        if (trans.from === this.publicKey || trans.to === this.publicKey) {
                             transactions.push(trans);
                         }
                     }
@@ -125,11 +125,11 @@ var Wallet = /** @class */ (function () {
         try {
             for (var transactions_1 = __values(transactions), transactions_1_1 = transactions_1.next(); !transactions_1_1.done; transactions_1_1 = transactions_1.next()) {
                 var transaction = transactions_1_1.value;
-                if (transaction.fromAddress !== this.publicKey) {
-                    correspondents.push(transaction.fromAddress);
+                if (transaction.from !== this.publicKey) {
+                    correspondents.push(transaction.from);
                 }
-                else if (transaction.toAddress !== this.publicKey) {
-                    correspondents.push(transaction.toAddress);
+                else if (transaction.to !== this.publicKey) {
+                    correspondents.push(transaction.to);
                 }
             }
         }

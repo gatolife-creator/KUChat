@@ -10,7 +10,7 @@ export const ChatContent = (props) => {
   return (
     <>
       {transactions.map((transaction) =>
-        transaction.fromAddress === "System" ? (
+        transaction.from === "System" ? (
           <div className="chat-sentence chat-sentence-right">
             {isURL(transaction.amount) ? (
               <a href={transaction.message} target="_blank" rel="noreferrer">
@@ -20,7 +20,7 @@ export const ChatContent = (props) => {
               <>{transaction.amount}</>
             )}
           </div>
-        ) : transaction.fromAddress === query.get("address") ? (
+        ) : transaction.from === query.get("address") ? (
           <div className="chat-sentence chat-sentence-left">
             {transaction.amount}
           </div>

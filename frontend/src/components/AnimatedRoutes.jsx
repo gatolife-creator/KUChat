@@ -41,6 +41,7 @@ export const AnimatedRoutes = () => {
   useEffect(() => {
     gun.get("blockchain").once((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
+      // parsedBlockchain.selfDestruct();
       blockchain.replaceChain(parsedBlockchain.chain);
       console.log(blockchain);
       setReceivedBlockchain(parsedBlockchain);

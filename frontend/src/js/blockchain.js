@@ -26,10 +26,10 @@ var Blockchain = /** @class */ (function () {
         return this.chain[this.chain.length - 1];
     };
     Blockchain.prototype.addTransaction = function (transaction) {
-        if (!transaction.fromAddress || !transaction.toAddress) {
+        if (!transaction.from || !transaction.to) {
             throw new Error("Transaction must include from and to address");
         }
-        if (transaction.toAddress === "System") {
+        if (transaction.to === "System") {
             throw new Error("Cannot send to System");
         }
         if (!transaction.isValid()) {
@@ -39,7 +39,7 @@ var Blockchain = /** @class */ (function () {
             throw new Error('Transaction amount should be higher than 0');
         }
         // Making sure that the amount sent is not greater than existing balance
-        var walletBalance = this.getBalanceOfAddress(transaction.fromAddress);
+        var walletBalance = this.getBalanceOfAddress(transaction.from);
         if (walletBalance < transaction.amount) {
             throw new Error('Not enough balance');
         }
@@ -62,10 +62,10 @@ var Blockchain = /** @class */ (function () {
                 try {
                     for (var _e = (e_2 = void 0, __values(block.transactions)), _f = _e.next(); !_f.done; _f = _e.next()) {
                         var trans = _f.value;
-                        if (trans.fromAddress === address) {
+                        if (trans.from === address) {
                             balance -= trans.amount;
                         }
-                        else if (trans.toAddress === address) {
+                        else if (trans.to === address) {
                             balance += trans.amount;
                         }
                     }
@@ -97,7 +97,7 @@ var Blockchain = /** @class */ (function () {
                 try {
                     for (var _e = (e_4 = void 0, __values(block.transactions)), _f = _e.next(); !_f.done; _f = _e.next()) {
                         var trans = _f.value;
-                        if (trans.fromAddress === address || trans.toAddress === address) {
+                        if (trans.from === address || trans.to === address) {
                             transactions.push(trans);
                         }
                     }
@@ -129,8 +129,8 @@ var Blockchain = /** @class */ (function () {
                 try {
                     for (var _e = (e_6 = void 0, __values(block.transactions)), _f = _e.next(); !_f.done; _f = _e.next()) {
                         var trans = _f.value;
-                        if ((trans.fromAddress === address1 && trans.toAddress === address2) ||
-                            (trans.fromAddress === address2 && trans.toAddress === address1)) {
+                        if ((trans.from === address1 && trans.to === address2) ||
+                            (trans.from === address2 && trans.to === address1)) {
                             transactions.push(trans);
                         }
                     }
@@ -180,11 +180,11 @@ var Blockchain = /** @class */ (function () {
         var tmp = JSON.parse(json);
         var blockchain = Object.assign(new Blockchain(), tmp);
         // 保留中のトランザクションの情報を引き継ぐ
-        var pendingTransations = blockchain.pendingTransactions.map(function (transaction) { return new transaction_1.Transaction(transaction.fromAddress, transaction.toAddress, transaction.amount, transaction.message, transaction.nft); });
+        var pendingTransations = blockchain.pendingTransactions.map(function (transaction) { return new transaction_1.Transaction(transaction.from, transaction.to, transaction.amount, transaction.message, transaction.nft); });
         // チェーンの情報を引き継ぐ
         var chain = blockchain.chain.map(function (block) {
             var transactions = block.transactions.map(function (transaction) {
-                var tmpTransaction = new transaction_1.Transaction(transaction.fromAddress, transaction.toAddress, transaction.amount, transaction.message, transaction.nft);
+                var tmpTransaction = new transaction_1.Transaction(transaction.from, transaction.to, transaction.amount, transaction.message, transaction.nft);
                 tmpTransaction.signature = transaction.signature;
                 tmpTransaction.timestamp = transaction.timestamp;
                 return tmpTransaction;
