@@ -159,6 +159,22 @@ main {
     }
 }
 
+.error-page-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: calc(100vw - 15px);
+    z-index: -1;
+}
+
+.plate {
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 40%;
+    margin: 10px auto auto 40px;
+    padding: 20px;
+    text-align: left;
+}
+
 @media screen and (max-width:599px) {
     .navbar {
         width: 100%;
@@ -172,5 +188,9 @@ main {
     .qrcode-reader-wrapper {
         position: absolute;
         width: 100%;
+    }
+    .plate {
+        width: 100%;
+        margin: 0 auto;
     }
 }

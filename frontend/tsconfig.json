@@ -6,6 +6,7 @@
     "src/ts/nft.ts",
     "src/ts/transaction.ts",
     "src/ts/wallet.ts",
+    "src/ts/utils.ts",
     ],
     "exclude": [
       "node_modules",

@@ -9,7 +9,7 @@ export const Signin = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <form method="post" action="/signin-attempt" autocomplete="off">
+      <form method="post" action="/signin-attempt" autoComplete="off">
         <img
           className="mb-4"
           src=""
