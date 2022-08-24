@@ -1,8 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
+import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
 import { useLocation } from "react-router-dom";
 import { Blockchain } from "../js/blockchain";
+import CustomLinkify from "../components/CustomLinkify";
 
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
 
@@ -15,10 +17,12 @@ export const Chat = (props) => {
   const [transactions, setTransactions] = useState([]);
   const [message, setMessage] = useState("");
 
+  const scrollToBottom = useScrollToBottom();
+
   useEffect(() => {
     gun.get("blockchain").once((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
-      parsedBlockchain.selfDestruct()
+      parsedBlockchain.selfDestruct();
       blockchain.replaceChain(parsedBlockchain.chain);
 
       setTransactions(
@@ -36,24 +40,34 @@ export const Chat = (props) => {
     const { address, message, amount } = e.target;
     if (!message.value) return false;
 
-    blockchain.minePendingTransactions(wallet.publicKey);
-    const trans = wallet.createTransaction(
-      address.value,
-      10,
-      message.value,
-      {}
-    );
-    blockchain.addTransaction(trans);
-    blockchain.minePendingTransactions(wallet.publicKey);
-
-    console.log(blockchain);
-    // blockchain.selfDestruct();
-    gun.get("blockchain").put({ blockchain: JSON.stringify(blockchain) });
-    message.value = "";
+    try {
+      // TODO この下のマイニングはそのうち、マイニングページに移動させる
+      // TODO つまり、メッセージの送信と同時にマイニングすることを中止する
+      // TODO デバッグの関係でマイニングしたのであって、本来の形ではない。今にプログラムのままだと、チェーンの置き換えの際に、一部のトランザクションが消滅してしまう。
+      blockchain.minePendingTransactions(wallet.publicKey);
+      const trans = wallet.createTransaction(
+        address.value,
+        10,
+        message.value,
+        {}
+      );
+      blockchain.addTransaction(trans);
+      blockchain.minePendingTransactions(wallet.publicKey);
+      console.log(blockchain);
+      // blockchain.selfDestruct();
+      gun.get("blockchain").put({ blockchain: JSON.stringify(blockchain) });
+      message.value = "";
+    } catch (error) {
+      if (error.message === "Invalid message") {
+        window.alert(
+          "不適切な言葉が含まれている可能性があります。\n文章を改めて送信してください。"
+        );
+      }
+    }
   };
 
   return (
-    <>
+    <ScrollToBottom>
       <motion.main
         className="chat-main"
         initial={{ opacity: 0 }}
@@ -63,7 +77,9 @@ export const Chat = (props) => {
         {transactions.map((transaction, index) =>
           transaction.from === wallet.publicKey ? (
             <div className="chat-right-wrapper" key={index}>
-              <div className="chat-sentence">{transaction.message}</div>
+              <div className="chat-sentence">
+                <CustomLinkify content={transaction.message} />
+              </div>
               <small className="chat-timestamp">
                 {`${new Date(transaction.timestamp).getMonth() + 1}月${new Date(
                   transaction.timestamp
@@ -76,7 +92,9 @@ export const Chat = (props) => {
             </div>
           ) : transaction.from === query.get("address") ? (
             <div className="chat-left-wrapper" key={index}>
-              <div className="chat-sentence">{transaction.message}</div>
+              <div className="chat-sentence">
+                <CustomLinkify content={transaction.message} />
+              </div>
               <button
                 style={{ display: "inline" }}
                 className="btn btn-outline-danger tip-btn"
@@ -170,12 +188,12 @@ export const Chat = (props) => {
             style={{ display: "none" }}
             readOnly
           />
-
-          <button className="btn btn-success">
+            
+          <button className="btn btn-success" onClick={scrollToBottom}>
             <i className="bi bi-send-fill"></i>
           </button>
         </form>
       </motion.footer>
-    </>
+    </ScrollToBottom>
   );
 };
