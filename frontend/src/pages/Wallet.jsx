@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export const WalletView = (props) => {
   const { wallet } = props;
-  console.log(wallet.getBalance());
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -20,7 +20,35 @@ export const WalletView = (props) => {
             </div>
             <div className="box26">
               <span className="box-title">QRコード</span>
-                <QRCodeSVG value={wallet.publicKey}></QRCodeSVG>
+              <QRCodeSVG value={wallet.publicKey}></QRCodeSVG>
+            </div>
+            <div className="box26">
+              <span className="box-title">アドレス</span>
+              <CopyToClipboard
+                text={wallet.publicKey}
+                onCopy={() =>
+                  alert(
+                    `クリップボードに アドレス をコピーしました！`
+                  )
+                }
+              >
+                <button
+                  className="btn btn-outline-secondary me-3"
+                  style={{ display: "inline" }}
+                >
+                  <i class="bi bi-link-45deg"></i>
+                </button>
+              </CopyToClipboard>
+              <small
+                className="text-truncate"
+                style={{
+                  display: "inline-block",
+                  maxWidth: "90%",
+                  verticalAlign: "middle",
+                }}
+              >
+                {wallet.publicKey}
+              </small>
             </div>
           </div>
         </div>
