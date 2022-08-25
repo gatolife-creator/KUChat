@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
 import { useLocation } from "react-router-dom";
@@ -22,7 +22,7 @@ export const Chat = (props) => {
   useEffect(() => {
     gun.get("blockchain").once((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
-      parsedBlockchain.selfDestruct();
+      // parsedBlockchain.selfDestruct();
       blockchain.replaceChain(parsedBlockchain.chain);
 
       setTransactions(
@@ -188,7 +188,7 @@ export const Chat = (props) => {
             style={{ display: "none" }}
             readOnly
           />
-            
+
           <button className="btn btn-success" onClick={scrollToBottom}>
             <i className="bi bi-send-fill"></i>
           </button>

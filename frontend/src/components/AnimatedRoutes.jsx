@@ -7,6 +7,7 @@ import { Signin } from "../pages/Signin";
 import { Contacts } from "../pages/Contacts";
 import { Chat } from "../pages/Chat";
 import { WalletView } from "../pages/Wallet";
+import { MessageSearch } from "../pages/MessageSearch";
 import { NotFound } from "../pages/NotFound";
 
 import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
@@ -63,6 +64,10 @@ export const AnimatedRoutes = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/wallet" element={<WalletView wallet={wallet} />} />
         <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
+        <Route
+          path="/message-search"
+          element={<MessageSearch blockchain={blockchain} />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>

@@ -7,6 +7,7 @@
     "src/ts/transaction.ts",
     "src/ts/wallet.ts",
     "src/ts/utils.ts",
+    "src/ts/searchEngine.ts",
     ],
     "exclude": [
       "node_modules",
@@ -14,6 +15,6 @@
     "compilerOptions": {
       "downlevelIteration": true,
       "strict": true,
-      "outDir": "src/js"
+      "outDir": "src/js",
     },
   }

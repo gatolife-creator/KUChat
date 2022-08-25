@@ -16,8 +16,8 @@ var IPv4 = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4
 var phoneNumber = "^0\\d{1,3}-\\d{2,4}-\\d{3,4}$";
 var email = "^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}$";
 var postalCode = "^\\d{3}-\\d{4}$";
-var unwanted = "((.)\\1{9,}";
-var filterList = bougen.concat(discriminativeExpression, shimoneta, IPv4, phoneNumber, email, postalCode, unwanted);
+// const unwanted = "(.)\\1{9,}";
+var filterList = bougen.concat(discriminativeExpression, shimoneta, IPv4, phoneNumber, email, postalCode);
 var filter = new filter_1.Filter(filterList);
 var Transaction = /** @class */ (function () {
     function Transaction(from, to, amount, message, nft) {

@@ -1,6 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
+
+  const submit = (e) => {
+    e.preventDefault();
+    const { message } = e.target;
+    if (!message.value) return false;
+    navigate("/message-search?q=" + message.value);
+    message.value = "";
+  } 
+
   return (
     <nav
       style={{ backgroundColor: "#052c65" }}
@@ -63,9 +74,10 @@ export const Navbar = () => {
             </li>
           </ul>
 
-          <form className="d-flex" role="search">
+          <form className="d-flex" role="search" onSubmit={(e) => submit(e)}>
             <input
               className="form-control me-2"
+              name="message"
               type="search"
               placeholder="Search"
               aria-label="Search"
