@@ -29,14 +29,16 @@ var SearchEngine = /** @class */ (function () {
         if (!text)
             return [];
         var segments = segmenter.segment(text);
-        var filtered = segments.filter(function (item) { return !item.match(/^(て|に|を|は|が|か|ん|の|や|ばかり|まで|だけ|ほど|も|こそ|でも|ば|と|ても|でも|けれど|けれども|な|とも|さ|よ|から|ぞ|ほど|？)$/); });
+        var filtered = segments.filter(function (item) { return !item.match(/^(て|で|に|を|は|が|か|ん|の|や|ばかり|まで|だけ|ほど|も|こそ|でも|ば|と|ても|でも|けれど|けれども|な|とも|さ|よ|から|ぞ|ほど|です|ます|？)$/); });
         var filteredRegex = new RegExp(filtered.join("|"));
         console.log(filteredRegex);
         var matchList = [];
         try {
             for (var _b = __values(this.docs), _c = _b.next(); !_c.done; _c = _b.next()) {
                 var doc = _c.value;
-                if (doc[this.field].match(filteredRegex)) {
+                if (doc[this.field].includes(text))
+                    matchList.push(doc);
+                else if (doc[this.field].match(filteredRegex)) {
                     matchList.push(doc);
                 }
             }

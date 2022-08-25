@@ -1,12 +1,18 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ContactCard } from "../components/ContactCard";
 
 export const Contacts = (props) => {
-  const [url, setURL] = useState("");
+  const navigate = useNavigate();
   const { wallet } = props;
   const correspondents = wallet.getCorrespondents();
+
+  const submit = (e) => {
+    e.preventDefault();
+    const { address } = e.target;
+    if (!address.value) return false;
+    navigate("/chat?address=" + address.value);
+  };
 
   return (
     <motion.main
@@ -16,26 +22,24 @@ export const Contacts = (props) => {
     >
       <>
         <div className="container pt-5 center">
-          <div className="input-group flex-nowrap">
-            <span className="input-group-text" id="addon-wrapping">
-              @
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Username"
-              aria-label="Username"
-              aria-describedby="addon-wrapping"
-              onChange={(e) => setURL(e.target.value)}
-            />
-            <Link
-              to={"/chat?address=" + url}
-              className="btn btn-outline-secondary"
-              id="button-addon2"
-            >
-              決定
-            </Link>
-          </div>
+          <form className="d-flex" role="search" onSubmit={(e) => submit(e)}>
+            <div className="input-group flex-nowrap">
+              <span className="input-group-text" id="addon-wrapping">
+                @
+              </span>
+              <input
+                type="text"
+                className="form-control"
+                name="address"
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="addon-wrapping"
+              />
+              <button className="btn btn-outline-secondary" id="button-addon2">
+                決定
+              </button>
+            </div>
+          </form>
           <p>or</p>
           <Link
             className="btn btn-success"

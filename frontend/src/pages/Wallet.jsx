@@ -36,7 +36,7 @@ export const WalletView = (props) => {
                   className="btn btn-outline-secondary me-3"
                   style={{ display: "inline" }}
                 >
-                  <i class="bi bi-link-45deg"></i>
+                  <i className="bi bi-link-45deg"></i>
                 </button>
               </CopyToClipboard>
               <small

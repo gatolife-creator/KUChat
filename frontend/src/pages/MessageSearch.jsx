@@ -1,10 +1,12 @@
-import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { SearchEngine } from "../js/searchEngine";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const MessageSearch = (props) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const search = location.search;
   const query = new URLSearchParams(search);
   const { blockchain } = props;
@@ -17,7 +19,13 @@ export const MessageSearch = (props) => {
   }
 
   const result = engine.search(query.get("q"));
-  // console.log(result);
+
+  const submit = (e) => {
+    e.preventDefault();
+    const { message } = e.target;
+    if (!message.value) return false;
+    navigate("/message-search?q=" + message.value);
+  };
 
   return (
     <motion.main
@@ -26,28 +34,31 @@ export const MessageSearch = (props) => {
       exit={{ opacity: 0 }}
     >
       <div className="container">
-        <div className="input-group pt-5 mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Recipient's username"
-            aria-label="Recipient's username"
-            aria-describedby="button-addon2"
-          />
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            id="button-addon2"
-          >
-            Button
-          </button>
-        </div>
+        <form className="d-flex" role="search" onSubmit={(e) => submit(e)}>
+          <div className="input-group pt-5 mb-3">
+            <input
+              type="text"
+              className="form-control"
+              name="message"
+              placeholder="検索したいワードを入力"
+            />
+            <button className="btn btn-outline-secondary" type="send">
+              検索
+            </button>
+          </div>
+        </form>
         <h1>{query.get("q")}</h1>
         {result.map((transaction, index) => (
           <div key={index}>
-            <div>{transaction.from}</div>
-            <div>{transaction.to}</div>
-            <div>{transaction.message}</div>
+            <Link
+              to={
+                "/transactions-view?transaction=" + transaction.calculateHash()
+              }
+              className="btn btn-outline-secondary mb-3"
+              style={{ width: "100%", padding: "50px" }}
+            >
+              {transaction.message}
+            </Link>
           </div>
         ))}
       </div>
