@@ -51,9 +51,9 @@ export const MessageSearch = (props) => {
         {result.map((transaction, index) => (
           <div key={index}>
             <Link
-              to={
-                "/transactions-view?transaction=" + transaction.calculateHash()
-              }
+              to={`/transactions-view?from=${transaction.from}&to=${
+                transaction.to
+              }&hash=${transaction.calculateHash()}`}
               className="btn btn-outline-secondary mb-3"
               style={{ width: "100%", padding: "50px" }}
             >

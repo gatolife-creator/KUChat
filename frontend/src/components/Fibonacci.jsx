@@ -129,7 +129,7 @@ export const Fibonacci = () => {
         <h1>404</h1>
         <p>Not found...</p>
         <p style={{ borderBottom: "2px solid black" }}>
-          This page might get caught in a fibonacci vortex.
+          This page got caught in a fibonacci vortex.
         </p>
       </div>
     </>

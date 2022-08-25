@@ -8,6 +8,7 @@ import { Contacts } from "../pages/Contacts";
 import { Chat } from "../pages/Chat";
 import { WalletView } from "../pages/Wallet";
 import { MessageSearch } from "../pages/MessageSearch";
+import { TransactionsView } from "../pages/TransactionsView";
 import { NotFound } from "../pages/NotFound";
 
 import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
@@ -67,6 +68,10 @@ export const AnimatedRoutes = () => {
         <Route
           path="/message-search"
           element={<MessageSearch blockchain={blockchain} />}
+        />
+        <Route
+          path="/transactions-view"
+          element={<TransactionsView blockchain={blockchain} />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

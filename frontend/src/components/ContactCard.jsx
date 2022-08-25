@@ -8,7 +8,7 @@ export const ContactCard = (props) => {
       className="list-group-item list-group-item-action"
       aria-current="true"
     >
-      <div className="d-flex w-100 justify-content-between">
+      <div className="d-flex w-100 justify-content-between text-truncate">
         <h5 className="mb-1">{name}</h5>
         <small>{date}</small>
       </div>
