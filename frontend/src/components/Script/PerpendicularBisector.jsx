@@ -13,12 +13,9 @@ export const PerpendicularBisector = () => {
 
   const setup = (p5, canvasParentRef) => {
     canvas = p5
-      .createCanvas(
-        window.innerWidth < 599 ? window.innerWidth : window.innerWidth - 15,
-        window.innerHeight
-      )
+      .createCanvas(window.innerWidth, window.innerHeight)
       .parent(canvasParentRef);
-      p5.angleMode(p5.DEGREES);
+    p5.angleMode(p5.DEGREES);
   };
 
   const draw = (p5) => {
@@ -42,7 +39,7 @@ export const PerpendicularBisector = () => {
 
     b += bs;
     if (b < -300 || 300 < b) {
-        bs *= -1;
+      bs *= -1;
     }
 
     p5.stroke("white");
@@ -77,7 +74,7 @@ export const PerpendicularBisector = () => {
         <h1>404</h1>
         <p>Not found...</p>
         <p style={{ borderBottom: "2px solid black" }}>
-            Please turn to the previous page.
+          Please turn to the previous page.
         </p>
       </div>
     </>

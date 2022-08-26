@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Fibonacci } from "../components/Script/Fibonacci";
 import { ManyTriangles } from "../components/Script/ManyTriangles";
 import { PerpendicularBisector } from "../components/Script/PerpendicularBisector";
+import { Container } from "@mui/material";
 
 export const NotFound = () => {
   const random = (Math.random() * 3) | 0;
@@ -12,7 +13,7 @@ export const NotFound = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="container px-4 pt-5 text-center">
+      <Container maxWidth="lg" sx={{ paddingTop: "100px" }}>
         {random === 0 ? (
           <Fibonacci />
         ) : random === 1 ? (
@@ -22,7 +23,12 @@ export const NotFound = () => {
         ) : (
           <></>
         )}
-      </div>
+      </Container>
     </motion.main>
   );
 };
+
+{
+  /* <div className="container px-4 pt-5 text-center">
+</div> */
+}

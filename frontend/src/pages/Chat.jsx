@@ -1,10 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
 import { useLocation } from "react-router-dom";
 import { Blockchain } from "../ts/blockchain";
 import CustomLinkify from "../components/CustomLinkify";
+import { ChatInput } from "../components/ChatInput";
+import TipDialog from "../components/FormDialog";
+
+import { Button } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
 
@@ -16,8 +20,6 @@ export const Chat = (props) => {
 
   const [transactions, setTransactions] = useState([]);
   const [message, setMessage] = useState("");
-
-  const scrollToBottom = useScrollToBottom();
 
   useEffect(() => {
     gun.get("blockchain").once((data) => {
@@ -35,6 +37,7 @@ export const Chat = (props) => {
   }, [blockchain, transactions, wallet.publicKey]);
 
   const submit = (e) => {
+    console.log("submit");
     e.preventDefault();
 
     const { address, message, amount } = e.target;
@@ -67,13 +70,14 @@ export const Chat = (props) => {
   };
 
   return (
-    <ScrollToBottom>
+    <>
       <motion.main
         className="chat-main"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
+        <div style={{padding: "50px"}}></div>
         {transactions.map((transaction, index) =>
           transaction.from === wallet.publicKey ? (
             <div className="chat-right-wrapper" key={index}>
@@ -95,7 +99,9 @@ export const Chat = (props) => {
               <div className="chat-sentence">
                 <CustomLinkify content={transaction.message} />
               </div>
-              <button
+              <TipDialog></TipDialog>
+              
+              {/* <button
                 style={{ display: "inline" }}
                 className="btn btn-outline-danger tip-btn"
                 data-bs-toggle="offcanvas"
@@ -104,7 +110,7 @@ export const Chat = (props) => {
                 onClick={() => setMessage(transaction.message)}
               >
                 <i style={{ fontSize: "14px" }} className="bi bi-heart"></i>
-              </button>
+              </button> */}
               <small className="chat-timestamp">
                 {`${new Date(transaction.timestamp).getMonth() + 1}月${new Date(
                   transaction.timestamp
@@ -119,7 +125,7 @@ export const Chat = (props) => {
             <React.Fragment key={index}></React.Fragment>
           )
         )}
-        <div
+        {/* <div
           className="offcanvas offcanvas-bottom"
           tabIndex="-1"
           id="offcanvasBottom"
@@ -157,7 +163,7 @@ export const Chat = (props) => {
             </div>
             残念ながら、この機能はまだ実装されていません。
           </div>
-        </div>
+        </div> */}
       </motion.main>
       <motion.footer
         className="chat-footer"
@@ -166,6 +172,7 @@ export const Chat = (props) => {
         exit={{ opacity: 0 }}
       >
         <form onSubmit={(e) => submit(e)}>
+          <ChatInput className="chat-input" name="message" autoFocus />
           <input
             type="text"
             className="form-control"
@@ -177,23 +184,22 @@ export const Chat = (props) => {
           <input
             type="text"
             className="form-control"
-            name="message"
-            autoFocus
-          />
-          <input
-            type="text"
-            className="form-control"
             name="amount"
             value="100"
             style={{ display: "none" }}
             readOnly
           />
 
-          <button className="btn btn-success" onClick={scrollToBottom}>
-            <i className="bi bi-send-fill"></i>
-          </button>
+          <Button
+            variant="contained"
+            color="success"
+            type="submit"
+            endIcon={<SendIcon />}
+          >
+            Send
+          </Button>
         </form>
       </motion.footer>
-    </ScrollToBottom>
+    </>
   );
 };

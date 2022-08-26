@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Container } from "@mui/material";
+import { IconButton } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 
 export const WalletView = (props) => {
   const { wallet } = props;
@@ -10,8 +13,8 @@ export const WalletView = (props) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="container">
-        <div style={{ marginTop: "100px" }} className="card">
+      <Container maxWidth="lg" sx={{ paddingTop: "100px" }}>
+        <div className="card">
           <h5 className="card-header">Wallet</h5>
           <div className="card-body">
             <div className="box26">
@@ -27,17 +30,12 @@ export const WalletView = (props) => {
               <CopyToClipboard
                 text={wallet.publicKey}
                 onCopy={() =>
-                  alert(
-                    `クリップボードに アドレス をコピーしました！`
-                  )
+                  alert(`クリップボードに アドレス をコピーしました！`)
                 }
               >
-                <button
-                  className="btn btn-outline-secondary me-3"
-                  style={{ display: "inline" }}
-                >
-                  <i className="bi bi-link-45deg"></i>
-                </button>
+                <IconButton>
+                  <LinkIcon />
+                </IconButton>
               </CopyToClipboard>
               <small
                 className="text-truncate"
@@ -52,7 +50,7 @@ export const WalletView = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </motion.main>
   );
 };

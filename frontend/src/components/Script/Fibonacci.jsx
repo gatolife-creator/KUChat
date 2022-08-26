@@ -90,10 +90,7 @@ export const Fibonacci = () => {
 
   const setup = (p5, canvasParentRef) => {
     canvas = p5
-      .createCanvas(
-        window.innerWidth < 599 ? window.innerWidth : window.innerWidth - 15,
-        window.innerHeight
-      )
+      .createCanvas(window.innerWidth, window.innerHeight)
       .parent(canvasParentRef);
     fib = new Fib(100);
     fib.fibS(p5);

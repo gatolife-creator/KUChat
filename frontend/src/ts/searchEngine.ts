@@ -3,6 +3,8 @@ const TinySegmenter = require('tiny-segmenter')
 
 const segmenter = new TinySegmenter();
 
+// TODO 事前にドキュメントのキーワード抽出を行ったほうがいいかもしれない
+
 export class SearchEngine {
     ref: string;
     field: string;
