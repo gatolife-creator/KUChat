@@ -1,5 +1,5 @@
 import Sketch from "react-p5";
-import { Quad, Point } from "../ts/react-shapeshape";
+import { Quad, Point } from "../../ts/react-shapeshape";
 
 export const ManyTriangles = () => {
   let canvas;

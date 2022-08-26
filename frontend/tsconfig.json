@@ -8,6 +8,7 @@
     "src/ts/wallet.ts",
     "src/ts/utils.ts",
     "src/ts/searchEngine.ts",
+    "src/ts/react-shapeshape.ts"
     ],
     "exclude": [
       "node_modules",

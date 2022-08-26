@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { SearchEngine } from "../js/searchEngine";
+import { SearchEngine } from "../ts/searchEngine";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Fibonacci } from "../components/Fibonacci";
-import { ManyTriangles } from "../components/ManyTriangles";
+import { Fibonacci } from "../components/Script/Fibonacci";
+import { ManyTriangles } from "../components/Script/ManyTriangles";
 import { PerpendicularBisector } from "../components/Script/PerpendicularBisector";
 
 export const NotFound = () => {

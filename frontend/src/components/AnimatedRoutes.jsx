@@ -13,8 +13,8 @@ import { NotFound } from "../pages/NotFound";
 
 import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
 
-import { Blockchain } from "../js/blockchain";
-import { Wallet } from "../js/wallet";
+import { Blockchain } from "../ts/blockchain";
+import { Wallet } from "../ts/wallet";
 
 import Gun from "gun";
 

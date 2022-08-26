@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ScrollToBottom, { useScrollToBottom } from "react-scroll-to-bottom";
 import { useLocation } from "react-router-dom";
-import { Blockchain } from "../js/blockchain";
+import { Blockchain } from "../ts/blockchain";
 import CustomLinkify from "../components/CustomLinkify";
 
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
