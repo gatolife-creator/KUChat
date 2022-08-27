@@ -63,7 +63,7 @@ class Fib {
   }
 
   fibD(p5) {
-    p5.background(0);
+    p5.background(30);
     p5.translate(p5.width / 2, p5.height / 2);
 
     if (this.resize > 50) this.resize = 50;
@@ -71,7 +71,7 @@ class Fib {
       this.resize = 5.791724706488976e-38;
 
     for (let i = 0; i < this.count; i++) {
-      p5.fill(0);
+      p5.fill(30);
       p5.stroke(0, 125, 255);
       p5.strokeWeight(5);
       p5.rect(

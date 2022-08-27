@@ -16,6 +16,8 @@ import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
 import { Blockchain } from "../ts/blockchain";
 import { Wallet } from "../ts/wallet";
 
+import { CssVarsProvider } from "@mui/joy/styles";
+
 import Gun from "gun";
 
 const gun = Gun({
@@ -53,28 +55,28 @@ export const AnimatedRoutes = () => {
   }, []);
 
   return (
-    <AnimatePresence exitBeforeEnter>
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contacts" element={<Contacts wallet={wallet} />} />
-        <Route
-          path="/chat"
-          element={<Chat blockchain={blockchain} wallet={wallet} gun={gun} />}
-        />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/wallet" element={<WalletView wallet={wallet} />} />
-        <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
-        <Route
-          path="/message-search"
-          element={<MessageSearch blockchain={blockchain} />}
-        />
-        <Route
-          path="/transactions-view"
-          element={<TransactionsView blockchain={blockchain} />}
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+    <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contacts" element={<Contacts wallet={wallet} />} />
+          <Route
+            path="/chat"
+            element={<Chat blockchain={blockchain} wallet={wallet} gun={gun} />}
+          />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/wallet" element={<WalletView wallet={wallet} />} />
+          <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
+          <Route
+            path="/message-search"
+            element={<MessageSearch blockchain={blockchain} />}
+          />
+          <Route
+            path="/transactions-view"
+            element={<TransactionsView blockchain={blockchain} />}
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
     </AnimatePresence>
   );
 };

@@ -11,6 +11,11 @@ import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { Input } from "@mui/material";
 import { InputAdornment } from "@mui/material";
+import Slide from "@mui/material/Slide";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function TipDialog() {
   const [open, setOpen] = React.useState(false);
@@ -29,7 +34,11 @@ export default function TipDialog() {
         <FavoriteBorderIcon />
       </IconButton>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
         <DialogTitle>KUGreen を送る</DialogTitle>
         <DialogContent>
           <DialogContentText>

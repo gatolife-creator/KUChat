@@ -3,6 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { ContactCard } from "../components/ContactCard";
 import { Container } from "@mui/system";
 import { SearchForm } from "../components/SearchForm";
+import Correspondent from "../components/Correspondent";
+import Button from "@mui/joy/IconButton";
+import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
+import { CssVarsProvider } from "@mui/joy/styles";
+import Chip from "@mui/joy/Chip";
+import Box from "@mui/joy/Box";
+import Typography from "@mui/joy/Typography";
+import List from "@mui/joy/List";
 
 export const Contacts = (props) => {
   const navigate = useNavigate();
@@ -26,89 +34,42 @@ export const Contacts = (props) => {
         <SearchForm
           action={submit}
           placeholder="チャットしたい人のアドレスを入力"
+          name="address"
         />
-        <p>or</p>
-        <Link
-          className="btn btn-success"
-          to="/qrcode-reader"
-          style={{
-            display: "block",
-            width: "134px",
-            height: "134px",
-            margin: "0 auto",
-            marginBottom: "50px",
-            backgroundColor: "green",
-          }}
-        >
-          <i className="bi bi-qr-code-scan" style={{ fontSize: "5em" }}></i>
-        </Link>
+        <Chip sx={{ marginTop: "20px", marginBottom: "20px" }}>or</Chip>
+        <br />
+        <CssVarsProvider>
+          <Button
+            component={Link}
+            to="/qrcode-reader"
+            variant="solid"
+            sx={{
+              "--IconButton-size": "100px",
+            }}
+            color="success"
+          >
+            <QrCodeScannerIcon />
+          </Button>
+        </CssVarsProvider>
         <hr />
         <h3 className="mt-2">チャット履歴</h3>
-        <div
-          style={{ backgroundColor: "lightgray", padding: "50px" }}
-          className="list-group"
-        >
-          {correspondents.map((correspondent, index) => (
-            <ContactCard
-              address={correspondent}
-              name={correspondent}
-              date="3 days ago"
-              message="最新のメッセージ"
-              key={index}
-            />
-          ))}
-        </div>
+        <Box>
+          <List
+          variant="outlined"
+            aria-labelledby="ellipsis-list-demo"
+            sx={{ "--List-decorator-size": "56px" }}
+          >
+            {correspondents.map((correspondent, index) => (
+              <Correspondent
+                name={correspondent}
+                address={correspondent}
+                message={"最新のメッセージ"}
+                key={index}
+              />
+            ))}
+          </List>
+        </Box>
       </Container>
     </motion.main>
   );
 };
-// <form className="d-flex" role="search" onSubmit={(e) => submit(e)}>
-//   <div className="input-group flex-nowrap">
-//     <span className="input-group-text" id="addon-wrapping">
-//       @
-//     </span>
-//     <input
-//       type="text"
-//       className="form-control"
-//       name="address"
-//       placeholder="Username"
-//       aria-label="Username"
-//       aria-describedby="addon-wrapping"
-//     />
-//     <Button className="btn btn-outline-secondary" id="button-addon2">
-//       決定
-//     </Button>
-//   </div>
-// </form>
-// <p>or</p>
-// <Link
-//   className="btn btn-success"
-//   to="/qrcode-reader"
-//   style={{
-//     display: "block",
-//     width: "134px",
-//     height: "134px",
-//     margin: "0 auto",
-//     marginBottom: "50px",
-//   }}
-// >
-//   <i className="bi bi-qr-code-scan" style={{ fontSize: "5em" }}></i>
-// </Link>
-
-// <hr />
-
-// <h3 className="mt-2">チャット履歴</h3>
-// <div
-//   style={{ backgroundColor: "lightgray", padding: "50px" }}
-//   className="list-group"
-// >
-//   {correspondents.map((correspondent, index) => (
-//     <ContactCard
-//       address={correspondent}
-//       name={correspondent}
-//       date="3 days ago"
-//       message="最新のメッセージ"
-//       key={index}
-//     />
-//   ))}
-// </div>

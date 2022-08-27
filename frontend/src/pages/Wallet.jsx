@@ -34,7 +34,7 @@ export const WalletView = (props) => {
                 }
               >
                 <IconButton>
-                  <LinkIcon />
+                  <LinkIcon color="warning"/>
                 </IconButton>
               </CopyToClipboard>
               <small

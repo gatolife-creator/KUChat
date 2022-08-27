@@ -27,8 +27,3 @@ export const NotFound = () => {
     </motion.main>
   );
 };
-
-{
-  /* <div className="container px-4 pt-5 text-center">
-</div> */
-}

@@ -4,6 +4,10 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import { SearchForm } from "../components/SearchForm";
+import { Container } from "@mui/material";
+import { Button } from "@mui/material";
+
 export const MessageSearch = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,35 +37,37 @@ export const MessageSearch = (props) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="container">
-        <form className="d-flex" role="search" onSubmit={(e) => submit(e)}>
-          <div className="input-group pt-5 mb-3">
-            <input
-              type="text"
-              className="form-control"
-              name="message"
-              placeholder="検索したいワードを入力"
-            />
-            <button className="btn btn-outline-secondary" type="send">
-              検索
-            </button>
-          </div>
-        </form>
+      <Container className="center" maxWidth="lg" sx={{ paddingTop: "130px" }}>
+        <SearchForm
+          action={submit}
+          placeholder="検索したいワードを入力"
+          name="message"
+        />
+
         <h1>{query.get("q")}</h1>
         {result.map((transaction, index) => (
-          <div key={index}>
-            <Link
-              to={`/transactions-view?from=${transaction.from}&to=${
-                transaction.to
-              }&hash=${transaction.calculateHash()}`}
-              className="btn btn-outline-secondary mb-3"
-              style={{ width: "100%", padding: "50px" }}
-            >
-              {transaction.message}
-            </Link>
-          </div>
+          <Button
+            key={index}
+            component={Link}
+            variant="outlined"
+            sx={{
+              width: "100%",
+              height: "100px",
+              overflow: "hidden",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              margin: "0 auto",
+              marginBottom: "20px",
+            }}
+            color="primary"
+            to={`/transactions-view?from=${transaction.from}&to=${
+              transaction.to
+            }&hash=${transaction.calculateHash()}`}
+          >
+            {transaction.message}
+          </Button>
         ))}
-      </div>
+      </Container>
     </motion.main>
   );
 };
