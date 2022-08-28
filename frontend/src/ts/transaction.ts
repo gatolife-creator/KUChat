@@ -64,13 +64,13 @@ export class Transaction {
     isValid(): boolean {
 
         if (!filter.isPure(this.message)) {
-            throw new Error("Invalid message");
+            throw new Error("無効なメッセージです");
         }
 
         if (this.from === "System") return true;
 
         if (!this.signature || this.signature.length === 0) {
-            throw new Error("No signature in this transaction");
+            throw new Error("このトランザクションに署名がありません");
         }
 
         const publicKey = secp256k1.keyFromPublic(this.from, "hex");

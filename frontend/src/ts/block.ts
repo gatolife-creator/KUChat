@@ -11,17 +11,18 @@ export class Block {
 
     constructor(preHash: string, transactions: Transaction[]) {
         this.preHash = preHash;
-        this.hash = this.calculateHash();
         this.timestamp = Date.now();
         this.difficulty = 2;
         this.transactions = transactions;
         this.nonce = 0;
+        this.hash = this.calculateHash();
     }
 
     calculateHash(): string {
         return SHA256(
             this.preHash +
             this.timestamp +
+            this.difficulty +
             JSON.stringify(this.transactions) +
             this.nonce
         ).toString();

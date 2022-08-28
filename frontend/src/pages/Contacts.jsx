@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { ContactCard } from "../components/ContactCard";
 import { Container } from "@mui/system";
 import { SearchForm } from "../components/SearchForm";
 import Correspondent from "../components/Correspondent";
@@ -9,7 +8,6 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import { CssVarsProvider } from "@mui/joy/styles";
 import Chip from "@mui/joy/Chip";
 import Box from "@mui/joy/Box";
-import Typography from "@mui/joy/Typography";
 import List from "@mui/joy/List";
 
 export const Contacts = (props) => {

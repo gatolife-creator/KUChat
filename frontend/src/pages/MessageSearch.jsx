@@ -8,6 +8,8 @@ import { SearchForm } from "../components/SearchForm";
 import { Container } from "@mui/material";
 import { Button } from "@mui/material";
 
+import { v4 as uuidv4 } from "uuid";
+
 export const MessageSearch = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,7 +20,8 @@ export const MessageSearch = (props) => {
   const engine = new SearchEngine("", "message");
   for (const block of blockchain.chain) {
     for (const transaction of block.transactions) {
-      engine.add(transaction);
+      const id = uuidv4();
+      engine.add(id, transaction);
     }
   }
 

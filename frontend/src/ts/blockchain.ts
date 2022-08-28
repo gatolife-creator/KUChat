@@ -107,16 +107,16 @@ export class Blockchain {
             const previousBlock = this.chain[i - 1];
 
             if (!currentBlock.hasValidTransactions()) {
-                console.log("無効なトランザクションがある");
+                console.warn("無効なトランザクションがあります");
                 return false;
             }
             if (currentBlock.hash !== currentBlock.calculateHash()) {
-                console.log("ハッシュ化の結果、記録されているハッシュ値と異なる");
+                console.warn("ハッシュ化の結果、記録されているハッシュ値と一致しません");
                 return false;
             }
 
             if (currentBlock.preHash !== previousBlock.hash) {
-                console.log("preHashと直前のハッシュ値が異なる")
+                console.warn("preHashと直前のハッシュ値が一致しません")
                 return false;
             }
         }
@@ -128,7 +128,7 @@ export class Blockchain {
         const blockchain = Object.assign(new Blockchain(), tmp);
 
         // 保留中のトランザクションの情報を引き継ぐ
-        const pendingTransations = blockchain.pendingTransactions.map(
+        const pendingTransactions = blockchain.pendingTransactions.map(
             (transaction: any) => new Transaction(transaction.from, transaction.to, transaction.amount, transaction.message, transaction.nft)
         );
 
@@ -150,7 +150,7 @@ export class Blockchain {
             }
         );
 
-        blockchain.pendingTransactions = pendingTransations;
+        blockchain.pendingTransactions = pendingTransactions;
         blockchain.chain = chain;
 
         return blockchain;
