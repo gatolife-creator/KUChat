@@ -1,9 +1,6 @@
-// import { TinySegmenter } from "tiny-segmenter";
 const TinySegmenter = require('tiny-segmenter')
 
 const segmenter = new TinySegmenter();
-
-// TODO 事前にドキュメントのキーワード抽出を行ったほうがいいかもしれない
 
 export class SearchEngine {
     ref: string;
@@ -26,7 +23,7 @@ export class SearchEngine {
     setDatabase(id: string, doc: any) {
         const content = doc[this.field];
         const segments = segmenter.segment(content);
-        const filtered = segments.filter((item: string) => !item.match(/^(て|で|に|を|は|が|か|ん|の|や|ばかり|まで|だけ|ほど|も|こそ|でも|ば|と|ても|でも|けれど|けれども|な|とも|さ|よ|から|ぞ|ほど|です|ます|？)$/));
+        const filtered = SearchEngine.filter(segments);
         for (const item of filtered) {
             if (this.database[item]) {
                 this.database[item].push(id);
@@ -39,7 +36,7 @@ export class SearchEngine {
     search(text: string) {
         if (!text) return [];
         const segments = segmenter.segment(text);
-        const filtered = segments.filter((item: string) => !item.match(/^(て|で|に|を|は|が|か|ん|の|や|ばかり|まで|だけ|ほど|も|こそ|でも|ば|と|ても|でも|けれど|けれども|な|とも|さ|よ|から|ぞ|ほど|です|ます|？)$/));
+        const filtered = SearchEngine.filter(segments);
         let matchList: any[] = [];
 
         for (const item of filtered) {
@@ -69,5 +66,9 @@ export class SearchEngine {
         }
 
         return result;
+    }
+
+    static filter(words: string[]): string[] {
+        return words.filter((item: string) => !item.match(/^(て|で|に|を|は|が|か|ん|の|や|ばかり|まで|だけ|ほど|も|こそ|でも|ば|と|ても|でも|けれど|けれども|な|とも|さ|よ|から|ぞ|ほど|です|ます|？)$/));
     }
 }

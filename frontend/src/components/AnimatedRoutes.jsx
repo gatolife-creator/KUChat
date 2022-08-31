@@ -16,8 +16,6 @@ import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
 import { Blockchain } from "../ts/blockchain";
 import { Wallet } from "../ts/wallet";
 
-import { CssVarsProvider } from "@mui/joy/styles";
-
 import Gun from "gun";
 
 const gun = Gun({

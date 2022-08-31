@@ -61,7 +61,7 @@ export const Chat = (props) => {
       gun.get("blockchain").put({ blockchain: JSON.stringify(blockchain) });
       message.value = "";
     } catch (error) {
-      if (error.message === "Invalid message") {
+      if (error.message.includes("無効なメッセージです")) {
         window.alert(
           "不適切な言葉が含まれている可能性があります。\n文章を改めて送信してください。"
         );
