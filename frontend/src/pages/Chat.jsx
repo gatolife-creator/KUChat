@@ -1,7 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { createWorkerFactory, useWorker } from "@shopify/react-web-worker";
 import { Blockchain } from "../ts/blockchain";
 import CustomLinkify from "../components/CustomLinkify";
 import { ChatInput } from "../components/ChatInput";
@@ -10,7 +11,18 @@ import TipDialog from "../components/FormDialog";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
+import { Grid } from "react-loader-spinner";
+
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
+// TODO ブロックチェーンの情報が多くなると、チャットの読み込みに時間がかかるから、チャットの一部を読み込むなり、ローディング画面を作るなり、UTXOデータベースを実装するなりした方がいい。
+// NOTE 直近のトランザクションだけを読み込むようにしたいが、ブロックチェーン上だとちょっとめんどくさそう。
+// NOTE おそらく二者間のトランザクションを読み込む際に時間がかかって、レンダリングに支障が出ていそうだ。
+// TODO 使い道は考えていないが、チャットの内容を公開鍵と秘密鍵を使って暗号化できるようにしてみたい。これをすることで、受信者と送信者以外の人には見れないメッセージを作り出すことができる。
+// NOTE 入力欄の自動フォーカス機能は、Androidでは使い勝手が良くないらしい。
+
+const createWorker = createWorkerFactory(() =>
+  import("../ts/worker")
+);
 
 export const Chat = (props) => {
   const { blockchain, wallet, gun } = props;
@@ -19,25 +31,31 @@ export const Chat = (props) => {
   const query = new URLSearchParams(search);
 
   const [transactions, setTransactions] = useState([]);
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const worker = useWorker(createWorker);
 
-  useEffect(() => {
-    gun.get("blockchain").once((data) => {
+  useLayoutEffect(() => {
+    gun.get("blockchain").on((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
-      // parsedBlockchain.selfDestruct();
       blockchain.replaceChain(parsedBlockchain.chain);
+      const dataForWorker = {
+        blockchain: blockchain,
+        fromAddress: wallet.publicKey,
+        toAddress: query.get("address"),
+      };
 
-      setTransactions(
-        blockchain.getTransactionsBetweenTwo(
-          wallet.publicKey,
-          query.get("address")
-        )
-      );
+      (async () => {
+        const transactions = await worker.getTransactionsBetweenTwo(
+          dataForWorker
+        );
+        setTransactions(transactions);
+        setTimeout(() => setIsLoading(false), 1000);
+      })();
     });
-  }, [blockchain, transactions, wallet.publicKey]);
+  }, []);
 
   const submit = (e) => {
-    console.log("submit");
     e.preventDefault();
 
     const { address, message, amount } = e.target;
@@ -69,7 +87,31 @@ export const Chat = (props) => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div style={{ padding: "40px" }}></div>
+      <div className="absolute-center">
+        <Grid
+          height="70"
+          width="70"
+          color="#4fa94d"
+          ariaLabel="triangle-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
+      </div>
+    </motion.main>
+  ) : (
     <>
       <motion.main
         className="chat-main"
