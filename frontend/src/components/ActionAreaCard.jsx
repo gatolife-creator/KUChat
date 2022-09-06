@@ -9,7 +9,15 @@ import { CardActionArea } from "@mui/material";
 export const ActionAreaCard = (props) => {
   const { title, content, link } = props;
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        margin: "0 auto",
+        marginTop: 5,
+        marginBottom: 5,
+        textAlign: "center",
+      }}
+    >
       <CardActionArea component={Link} to={link}>
         <CardMedia
           component="img"

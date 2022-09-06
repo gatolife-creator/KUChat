@@ -15,39 +15,32 @@ export const Home = () => {
           container
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
+          // sx={{ width: "100%", margin: "0 auto" }}
         >
-          <Grid item xs={2} sm={4} md={4}>
-            <ActionAreaCard
-              title="チャット"
-              content="他の人をチャットをしたり、仮想通貨をプレゼントすることができます。勉強とかに役立ててみよう。"
-              link="/contacts"
-              linkText="見る"
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={4}>
-            <ActionAreaCard
-              title="グループチャット"
-              content="グループを結成して、複数人でチャットできます。部活の取り決めやイベントの取り決めに役立ててみよう。"
-              link="/group-chat"
-              linkText="見る"
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={4}>
-            <ActionAreaCard
-              title="NFTマーケット"
-              content="これはNFTマーケットです。教材やアイコンなどを取引できます。近日公開予定。"
-              link="/nft-market"
-              linkText="見る"
-            />
-          </Grid>
-          <Grid item xs={2} sm={4} md={4}>
-            <ActionAreaCard
-              title="単語カード"
-              content="単語カードを作成できる。君の単語帳をNFTにして、KUCoinを稼ごう。近日公開予定。"
-              link="/word-list"
-              linkText="見る"
-            />
-          </Grid>
+          <ActionAreaCard
+            title="チャット"
+            content="他の人をチャットをしたり、仮想通貨をプレゼントすることができます。勉強とかに役立ててみよう。"
+            link="/contacts"
+            linkText="見る"
+          />
+          <ActionAreaCard
+            title="グループチャット"
+            content="グループを結成して、複数人でチャットできます。部活の取り決めやイベントの取り決めに役立ててみよう。"
+            link="/group-chat"
+            linkText="見る"
+          />
+          <ActionAreaCard
+            title="NFTマーケット"
+            content="これはNFTマーケットです。教材やアイコンなどを取引できます。近日公開予定。"
+            link="/nft-market"
+            linkText="見る"
+          />
+          <ActionAreaCard
+            title="単語カード"
+            content="単語カードを作成できる。君の単語帳をNFTにして、KUCoinを稼ごう。近日公開予定。"
+            link="/word-list"
+            linkText="見る"
+          />
         </Grid>
       </Container>
     </motion.main>

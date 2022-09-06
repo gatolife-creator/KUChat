@@ -42,8 +42,7 @@ export default function TipDialog() {
         <DialogTitle>KUGreen を送る</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
+            この機能は開発中です。しばらくお待ちください。
           </DialogContentText>
           <FormControl fullWidth sx={{ m: 1 }} variant="standard">
             <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
@@ -56,9 +55,9 @@ export default function TipDialog() {
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" onClick={handleClose}>
-            Send
+          <Button onClick={handleClose} >キャンセル</Button>
+          <Button type="submit" onClick={handleClose} variant="contained">
+            送る
           </Button>
         </DialogActions>
       </Dialog>
