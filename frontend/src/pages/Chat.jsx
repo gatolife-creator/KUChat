@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import { createWorkerFactory, useWorker } from "@shopify/react-web-worker";
+import { useWorker } from "@shopify/react-web-worker";
 import { Blockchain } from "../ts/blockchain";
 import CustomLinkify from "../components/CustomLinkify";
 import { ChatInput } from "../components/ChatInput";
@@ -20,12 +20,8 @@ import { Grid } from "react-loader-spinner";
 // TODO 使い道は考えていないが、チャットの内容を公開鍵と秘密鍵を使って暗号化できるようにしてみたい。これをすることで、受信者と送信者以外の人には見れないメッセージを作り出すことができる。
 // NOTE 入力欄の自動フォーカス機能は、Androidでは使い勝手が良くないらしい。
 
-const createWorker = createWorkerFactory(() =>
-  import("../ts/worker")
-);
-
 export const Chat = (props) => {
-  const { blockchain, wallet, gun } = props;
+  const { blockchain, wallet, gun, createWorker } = props;
   const location = useLocation();
   const search = location.search;
   const query = new URLSearchParams(search);
@@ -58,7 +54,7 @@ export const Chat = (props) => {
   const submit = (e) => {
     e.preventDefault();
 
-    const { address, message, amount } = e.target;
+    const { address, message } = e.target;
     if (!message.value) return false;
 
     try {
@@ -74,7 +70,6 @@ export const Chat = (props) => {
       );
       blockchain.addTransaction(trans);
       blockchain.minePendingTransactions(wallet.publicKey);
-      console.log(blockchain);
       // blockchain.selfDestruct();
       gun.get("blockchain").put({ blockchain: JSON.stringify(blockchain) });
       message.value = "";

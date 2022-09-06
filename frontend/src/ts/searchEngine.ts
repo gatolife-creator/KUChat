@@ -33,6 +33,12 @@ export class SearchEngine {
         }
     }
 
+    updataEngine(engine: SearchEngine) {
+        this.ref = engine.ref;
+        this.docs = engine.docs;
+        this.database = engine.database;
+    }
+
     search(text: string) {
         if (!text) return [];
         const segments = segmenter.segment(text);

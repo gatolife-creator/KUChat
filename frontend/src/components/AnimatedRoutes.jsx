@@ -17,6 +17,7 @@ import { Blockchain } from "../ts/blockchain";
 import { Wallet } from "../ts/wallet";
 
 import Gun from "gun";
+import { createWorkerFactory } from "@shopify/react-web-worker";
 
 const gun = Gun({
   peers: [
@@ -38,42 +39,55 @@ if (localStorage.getItem("privateKey")) {
   localStorage.setItem("privateKey", wallet.keyPair.getPrivate("hex"));
 }
 
+const createWorker = createWorkerFactory(() => import("../ts/worker"));
+
 export const AnimatedRoutes = () => {
   const location = useLocation();
-  const [receivedBlockchain, setReceivedBlockchain] = useState([]);
+  // const [receivedBlockchain, setReceivedBlockchain] = useState([]);
 
   useEffect(() => {
-    gun.get("blockchain").once((data) => {
+    gun.get("blockchain").on((data) => {
       const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
       blockchain.replaceChain(parsedBlockchain.chain);
       console.log(blockchain);
-      setReceivedBlockchain(parsedBlockchain);
     });
   }, []);
 
   return (
     <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contacts" element={<Contacts wallet={wallet} />} />
-          <Route
-            path="/chat"
-            element={<Chat blockchain={blockchain} wallet={wallet} gun={gun} />}
-          />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/wallet" element={<WalletView wallet={wallet} />} />
-          <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
-          <Route
-            path="/message-search"
-            element={<MessageSearch blockchain={blockchain} />}
-          />
-          <Route
-            path="/transactions-view"
-            element={<TransactionsView blockchain={blockchain} />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contacts" element={<Contacts wallet={wallet} />} />
+        <Route
+          path="/chat"
+          element={
+            <Chat
+              blockchain={blockchain}
+              wallet={wallet}
+              gun={gun}
+              createWorker={createWorker}
+            />
+          }
+        />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/wallet" element={<WalletView wallet={wallet} />} />
+        <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
+        <Route
+          path="/message-search"
+          element={
+            <MessageSearch
+              blockchain={blockchain}
+              createWorker={createWorker}
+            />
+          }
+        />
+        <Route
+          path="/transactions-view"
+          element={<TransactionsView blockchain={blockchain} />}
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </AnimatePresence>
   );
 };
