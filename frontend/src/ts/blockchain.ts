@@ -25,20 +25,20 @@ export class Blockchain {
         }
 
         if (transaction.to === "System") {
-            throw new Error("Cannot send to System");
+            throw new Error("システムに送信することはできません。");
         }
 
         if (!transaction.isValid()) {
-            throw new Error("Cannot add invalid transaction to chain");
+            throw new Error("無効なトンランザクションをチェーンに追加することはできません。");
         }
 
-        if (transaction.amount <= 0) {
-            throw new Error('Transaction amount should be higher than 0');
+        if (transaction.amount < 0) {
+            throw new Error('送金額は0以上でなくてはなりません。');
         }
         // Making sure that the amount sent is not greater than existing balance
         const walletBalance = this.getBalanceOfAddress(transaction.from);
         if (walletBalance < transaction.amount) {
-            throw new Error('Not enough balance');
+            throw new Error('十分な残高がありません。');
         }
 
         this.pendingTransactions.push(transaction);

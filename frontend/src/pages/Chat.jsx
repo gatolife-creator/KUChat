@@ -173,7 +173,7 @@ export const Chat = (props) => {
             type="text"
             className="form-control"
             name="amount"
-            value="100"
+            value="0"
             style={{ display: "none" }}
             readOnly
           />
