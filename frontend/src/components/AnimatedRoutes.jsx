@@ -21,9 +21,7 @@ import { createWorkerFactory } from "@shopify/react-web-worker";
 
 const gun = Gun({
   peers: [
-    "http://localhost:3001/gun",
-    "https://kuchat.herokuapp.com/gun",
-    "https://kuchat-test.herokuapp.com/gun",
+    `${window.location.origin}/gun`,
   ],
 });
 
@@ -38,6 +36,11 @@ if (localStorage.getItem("privateKey")) {
   wallet = new Wallet(blockchain);
   localStorage.setItem("privateKey", wallet.keyPair.getPrivate("hex"));
 }
+gun.get("blockchain").once((data) => {
+  if (!data) {
+    gun.get("blockchain").put({ blockchain: JSON.stringify(blockchain) });
+  }
+});
 
 const createWorker = createWorkerFactory(() => import("../ts/worker"));
 
