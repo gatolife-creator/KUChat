@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
 export const ActionAreaCard = (props) => {
-  const { title, content, link } = props;
+  const { title, content, link, imgURL } = props;
   return (
     <Card
       sx={{
@@ -19,12 +19,7 @@ export const ActionAreaCard = (props) => {
       }}
     >
       <CardActionArea component={Link} to={link}>
-        <CardMedia
-          component="img"
-          height="140"
-          image="https://www.shoshinsha-design.com/wp-content/uploads/2020/05/noimage-760x460.png"
-          alt={title}
-        />
+        <CardMedia component="img" image={imgURL} alt={title} height="140" />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {title}

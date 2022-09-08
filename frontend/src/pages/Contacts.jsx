@@ -51,7 +51,8 @@ export const Contacts = (props) => {
         </CssVarsProvider>
         <hr />
         <h3 className="mt-2">チャット履歴</h3>
-        <Box>
+        
+        <Box sx={{ backgroundColor: "#B6C9FF" }}>
           <List
           variant="outlined"
             aria-labelledby="ellipsis-list-demo"

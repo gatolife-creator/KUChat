@@ -4,11 +4,13 @@ import { AnimatePresence } from "framer-motion";
 import { Home } from "../pages/Home";
 import { About } from "../pages/About";
 import { Signin } from "../pages/Signin";
+import { Signup } from "../pages/Signup";
 import { Contacts } from "../pages/Contacts";
 import { Chat } from "../pages/Chat";
 import { WalletView } from "../pages/Wallet";
 import { MessageSearch } from "../pages/MessageSearch";
 import { TransactionsView } from "../pages/TransactionsView";
+import { HowToUse } from "../pages/HowToUse";
 import { NotFound } from "../pages/NotFound";
 
 import { QRCodeReaderPage } from "../pages/QRCodeReaderPage";
@@ -20,9 +22,7 @@ import Gun from "gun";
 import { createWorkerFactory } from "@shopify/react-web-worker";
 
 const gun = Gun({
-  peers: [
-    `${window.location.origin}/gun`,
-  ],
+  peers: [`${window.location.origin}/gun`],
 });
 
 const blockchain = new Blockchain();
@@ -74,6 +74,7 @@ export const AnimatedRoutes = () => {
           }
         />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/wallet" element={<WalletView wallet={wallet} />} />
         <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
         <Route
@@ -89,6 +90,7 @@ export const AnimatedRoutes = () => {
           path="/transactions-view"
           element={<TransactionsView blockchain={blockchain} />}
         />
+        <Route path="how-to-use" element={<HowToUse />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
