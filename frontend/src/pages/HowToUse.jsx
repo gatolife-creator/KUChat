@@ -16,9 +16,10 @@ export const HowToUse = () => {
           アプリケーションの<strong>見やすさ</strong>や、
           <strong>操作性向上</strong>のために調査をしております。
           <br />
-          特に、<strong>ウェブデザインに詳しい方</strong>
+          特に、<strong>配色やウェブデザインに詳しい方</strong>
           は、<strong>細かな改善点</strong>まで教えていただけると嬉しいです。
         </p>
+        <hr />
         <h2>アンケートの回答手順</h2>
         <ol>
           <li>
@@ -41,6 +42,17 @@ export const HowToUse = () => {
           </li>
           <li>該当のアンケートに回答</li>
         </ol>
+        <hr />
+        <h2>注意事項</h2>
+        <ul>
+          <p>
+            学校で使用するタブレットPCでは正常に動作しないことがあります。
+            <br />
+            正常に動作しなかった場合、お手数ですが、学校管轄外のPC（特に
+            <strong>ifilter</strong>
+            がインストールされていないもの）でお試しください。
+          </p>
+        </ul>
       </Container>
     </motion.main>
   );
