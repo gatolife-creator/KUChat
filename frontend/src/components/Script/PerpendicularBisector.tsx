@@ -1,5 +1,6 @@
+import React from "react";
 import Sketch from "react-p5";
-import { Point, Line } from "../../ts/react-shapeshape";
+import { Point, Line, Linear } from "../../ts/react-shapeshape";
 
 export const PerpendicularBisector = () => {
   let canvas;
@@ -9,7 +10,7 @@ export const PerpendicularBisector = () => {
   let bs = 1.5;
 
   let r = 100;
-  let tmp;
+  let tmp: Linear;
 
   const setup = (p5, canvasParentRef) => {
     canvas = p5

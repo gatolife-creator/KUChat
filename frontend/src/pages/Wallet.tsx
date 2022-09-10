@@ -4,6 +4,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Container } from "@mui/material";
 import { IconButton } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
+import React from "react";
 
 export const WalletView = (props) => {
   const { wallet } = props;

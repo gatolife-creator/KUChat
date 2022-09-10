@@ -9,6 +9,7 @@ import { Container } from "@mui/material";
 import { Button } from "@mui/material";
 
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
 
 export const MessageSearch = (props) => {
   const location = useLocation();
@@ -25,7 +26,7 @@ export const MessageSearch = (props) => {
     }
   }
 
-  const result = engine.search(query.get("q"));
+  const result = engine.search(query.get("q")!);
 
   const submit = (e) => {
     e.preventDefault();

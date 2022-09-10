@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Container } from "@mui/system";
+import React from "react";
 
 export const HowToUse = () => {
   return (
@@ -44,15 +45,13 @@ export const HowToUse = () => {
         </ol>
         <hr />
         <h2>注意事項</h2>
-        <ul>
-          <p>
-            学校で使用するタブレットPCでは正常に動作しないことがあります。
-            <br />
-            正常に動作しなかった場合、お手数ですが、学校管轄外のPC（特に
-            <strong>ifilter</strong>
-            がインストールされていないもの）でお試しください。
-          </p>
-        </ul>
+        <p>
+          学校で使用するタブレットPCでは正常に動作しないことがあります。
+          <br />
+          正常に動作しなかった場合、お手数ですが、学校管轄外のPC（特に
+          <strong>ifilter</strong>
+          がインストールされていないもの）でお試しください。
+        </p>
       </Container>
     </motion.main>
   );

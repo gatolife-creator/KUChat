@@ -9,6 +9,7 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import Chip from "@mui/joy/Chip";
 import Box from "@mui/joy/Box";
 import List from "@mui/joy/List";
+import React from "react";
 
 export const Contacts = (props) => {
   const navigate = useNavigate();

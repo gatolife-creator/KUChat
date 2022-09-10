@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 
 import { motion } from "framer-motion";
+import React from "react";
 
 // import { genMnemonic } from "../ts/mnemonic";
 // genMnemonic();

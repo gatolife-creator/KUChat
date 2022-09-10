@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Home } from "../pages/Home";
-import { About } from "../pages/About";
 import { Signin } from "../pages/Signin";
 import { Signup } from "../pages/Signup";
 import { Contacts } from "../pages/Contacts";
@@ -20,6 +19,7 @@ import { Wallet } from "../ts/wallet";
 
 import Gun from "gun";
 import { createWorkerFactory } from "@shopify/react-web-worker";
+import React from "react";
 
 const gun = Gun({
   peers: [`${window.location.origin}/gun`],
@@ -29,7 +29,7 @@ const blockchain = new Blockchain();
 let wallet;
 if (localStorage.getItem("privateKey")) {
   wallet = Wallet.restoreWalletFromPrivateKey(
-    localStorage.getItem("privateKey"),
+    localStorage.getItem("privateKey")!,
     blockchain
   );
 } else {
@@ -60,7 +60,6 @@ export const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/contacts" element={<Contacts wallet={wallet} />} />
         <Route
           path="/chat"

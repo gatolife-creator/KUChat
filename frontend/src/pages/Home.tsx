@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ActionAreaCard } from "../components/ActionAreaCard";
 import { Grid } from "@mui/material";
 import { Container } from "@mui/material";
+import React from "react";
 
 export const Home = () => {
   return (

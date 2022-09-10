@@ -1,16 +1,17 @@
+import React from "react";
 import Sketch from "react-p5";
 import { Quad, Point } from "../../ts/react-shapeshape";
 
 export const ManyTriangles = () => {
   let canvas;
-  let r;
+  let r: number;
 
-  let quads;
+  let quads: Quad[];
 
   let x = 50;
   let xs = 1 / 8;
-  let m;
-  let n;
+  let m: number;
+  let n: number;
 
   const setup = (p5, canvasParentRef) => {
     canvas = p5
@@ -46,10 +47,10 @@ export const ManyTriangles = () => {
 
     for (let i = 0; i < 30; i++) {
       let newQuad = new Quad(
-        quads[i].l1.getInteriorPoint(m, n),
-        quads[i].l2.getInteriorPoint(m, n),
-        quads[i].l3.getInteriorPoint(m, n),
-        quads[i].l4.getInteriorPoint(m, n)
+        quads[i].l1.getInteriorPoint(m, n)!,
+        quads[i].l2.getInteriorPoint(m, n)!,
+        quads[i].l3.getInteriorPoint(m, n)!,
+        quads[i].l4.getInteriorPoint(m, n)!
       );
       quads.push(newQuad);
     }

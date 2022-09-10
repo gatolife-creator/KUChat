@@ -1,12 +1,17 @@
+import React from "react";
 import Sketch from "react-p5";
 
 class Fib {
-  constructor(count) {
+  count: number;
+  numbers: number[];
+  x: number[];
+  y: number[];
+  resize: number;
+  constructor(count: number) {
     this.count = count;
     this.numbers = [];
     this.x = [];
     this.y = [];
-    this.col = [];
 
     this.resize = 50;
   }
@@ -86,7 +91,7 @@ class Fib {
 
 export const Fibonacci = () => {
   let canvas;
-  let fib;
+  let fib: Fib;
 
   const setup = (p5, canvasParentRef) => {
     canvas = p5

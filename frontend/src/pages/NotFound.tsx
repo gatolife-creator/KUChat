@@ -3,6 +3,7 @@ import { Fibonacci } from "../components/Script/Fibonacci";
 import { ManyTriangles } from "../components/Script/ManyTriangles";
 import { PerpendicularBisector } from "../components/Script/PerpendicularBisector";
 import { Container } from "@mui/material";
+import React from "react";
 
 export const NotFound = () => {
   const random = (Math.random() * 3) | 0;
