@@ -17,7 +17,6 @@ import { Grid } from "react-loader-spinner";
 // TODO また、ペンディングトランザクションを他のノードと共有したほうがいいかもしれない。正確な情報はわからないが、全てのトランザクションが処理されるためには、全てのノードがペンディングトランザクションを共有している必要がありそうだ。
 // TODO ブロックチェーンの情報が多くなると、チャットの読み込みに時間がかかるから、チャットの一部を読み込むなり、ローディング画面を作るなり、UTXOデータベースを実装するなりした方がいい。
 // NOTE 直近のトランザクションだけを読み込むようにしたいが、ブロックチェーン上だとちょっとめんどくさそう。
-// NOTE おそらく二者間のトランザクションを読み込む際に時間がかかって、レンダリングに支障が出ていそうだ。
 // TODO 使い道は考えていないが、チャットの内容を公開鍵と秘密鍵を使って暗号化できるようにしてみたい。これをすることで、受信者と送信者以外の人には見れないメッセージを作り出すことができる。
 // NOTE 入力欄の自動フォーカス機能は、Androidでは使い勝手が良くないらしい。
 
@@ -160,7 +159,7 @@ export const Chat = (props) => {
         exit={{ opacity: 0 }}
       >
         <form onSubmit={(e) => submit(e)}>
-          <ChatInput className="chat-input" name="message" autoFocus />
+          <ChatInput className="chat-input" name="message" autoFocus autoComplete="off"/>
           <input
             type="text"
             className="form-control"

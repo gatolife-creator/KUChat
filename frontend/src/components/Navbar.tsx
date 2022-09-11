@@ -207,6 +207,7 @@ export const Navbar = () => {
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
                 name="message"
+                autoComplete="off"
               />
             </Search>
           </form>

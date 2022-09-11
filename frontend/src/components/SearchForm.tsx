@@ -22,6 +22,7 @@ export const SearchForm = (props) => {
         placeholder={placeholder}
         inputProps={{ "aria-label": "search google maps" }}
         name={name}
+        autoComplete="off"
       />
       <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
         <SearchIcon />

@@ -51,6 +51,7 @@ export default function TipDialog() {
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
+              autoComplete="off"
             />
           </FormControl>
         </DialogContent>
