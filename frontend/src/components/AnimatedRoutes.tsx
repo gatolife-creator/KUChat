@@ -22,11 +22,11 @@ import { createWorkerFactory } from "@shopify/react-web-worker";
 import React from "react";
 
 const gun = Gun({
-  peers: [`${window.location.origin}/gun`],
+  peers: [`${window.location.origin}/gun`, "http://localhost:3001/gun"],
 });
 
 const blockchain = new Blockchain();
-let wallet;
+let wallet: Wallet;
 if (localStorage.getItem("privateKey")) {
   wallet = Wallet.restoreWalletFromPrivateKey(
     localStorage.getItem("privateKey")!,
