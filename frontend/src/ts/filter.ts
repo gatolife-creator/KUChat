@@ -1,16 +1,20 @@
+const TinySegmenter = require('tiny-segmenter')
+
+const segmenter = new TinySegmenter();
+
 export class Filter {
+    list: Set<string>;
     regex: RegExp;
     constructor(list: string[]) {
-        this.regex = this.setFilterList(list);
+        this.list = new Set(list);
+        this.regex = this.setFilterList();
     }
 
-    setFilterList(list: string[]): RegExp {
-        const regexStringArray: string[] = [];
-        for (let word of list) {
-            regexStringArray.push(word);
+    setFilterList() {
+        for(const word of this.list) {
+            this.list = this.list.add(word);
         }
-
-        return new RegExp(regexStringArray.join('|'), 'igm');
+        return new RegExp(Array.from(this.list).join('|'), 'igm');
     }
 
     filtering(sentence: string): string {
@@ -18,7 +22,10 @@ export class Filter {
     }
 
     isPure(sentence: string): boolean {
-        if(sentence.match(this.regex)) return false;
-        else return true;
+        const words = segmenter.segment(sentence);
+        for(const word of words) {
+            if(this.list.has(word)) return false;
+        }
+        return true;
     }
 }

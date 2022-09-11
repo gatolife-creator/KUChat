@@ -27,12 +27,10 @@ export const HowToUse = () => {
             左上の「<strong>KUChat</strong>」ロゴをクリック
           </li>
           <li>遷移した画面（ホーム画面）を確認して、アンケートに回答</li>
-          <br />
           <li>
             「<strong>チャット</strong>」ボタンをクリック
           </li>
           <li>該当のアンケートに回答</li>
-          <br />
           <li>
             ページ遷移したのち、アドレス入力欄に「<strong>test</strong>
             」と入力し、Enterキーもしくは🔍アイコンをクリック
