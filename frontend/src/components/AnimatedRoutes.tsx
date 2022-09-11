@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Home } from "../pages/Home";
@@ -46,7 +46,6 @@ const createWorker = createWorkerFactory(() => import("../ts/worker"));
 
 export const AnimatedRoutes = () => {
   const location = useLocation();
-  // const [receivedBlockchain, setReceivedBlockchain] = useState([]);
 
   useEffect(() => {
     gun.get("blockchain").on((data) => {

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import CustomLinkify from "../components/CustomLinkify";
 import TipDialog from "../components/FormDialog";
+import { Transaction } from "../ts/transaction";
 
 export const TransactionsView = (props) => {
   const { blockchain } = props;
@@ -13,7 +14,6 @@ export const TransactionsView = (props) => {
   const toAddress = query.get("to");
   const hash = query.get("hash");
 
-  const [message, setMessage] = useState("");
   const transactions = blockchain.getTransactionsBetweenTwo(
     fromAddress,
     toAddress
@@ -27,7 +27,7 @@ export const TransactionsView = (props) => {
       exit={{ opacity: 0 }}
     >
       <div style={{ padding: "40px" }}></div>
-      {transactions.map((transaction, index) =>
+      {transactions.map((transaction: Transaction, index: number) =>
         transaction.from === fromAddress &&
         transaction.calculateHash() === hash ? (
           <div className="chat-right-wrapper" key={index}>

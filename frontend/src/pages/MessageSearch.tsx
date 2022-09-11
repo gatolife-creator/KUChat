@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+import { Blockchain } from "../ts/blockchain";
+import { Transaction } from "../ts/transaction";
+
 import { SearchForm } from "../components/SearchForm";
 import { Container } from "@mui/material";
 import { Button } from "@mui/material";
@@ -11,7 +14,7 @@ import { Button } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
-export const MessageSearch = (props) => {
+export const MessageSearch = (props: {blockchain: Blockchain}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const search = location.search;
@@ -26,7 +29,7 @@ export const MessageSearch = (props) => {
     }
   }
 
-  const result = engine.search(query.get("q")!);
+  const result = engine.search<Transaction>(query.get("q")!);
 
   const submit = (e) => {
     e.preventDefault();
@@ -49,7 +52,7 @@ export const MessageSearch = (props) => {
         />
 
         <h1>{query.get("q")}</h1>
-        {result.map((transaction, index) => (
+        {result.map((transaction: Transaction, index: number) => (
           <Button
             key={index}
             component={Link}

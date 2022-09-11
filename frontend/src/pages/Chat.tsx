@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { useWorker } from "@shopify/react-web-worker";
 import { Blockchain } from "../ts/blockchain";
+import { Transaction } from "../ts/transaction";
 import CustomLinkify from "../components/CustomLinkify";
 import { ChatInput } from "../components/ChatInput";
 import TipDialog from "../components/FormDialog";
@@ -29,7 +30,7 @@ export const Chat = (props) => {
   const [transactions, setTransactions] = useState([]);
   // const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const worker = useWorker(createWorker);
+  const worker = useWorker<any, []>(createWorker);
 
   useLayoutEffect(() => {
     gun.get("blockchain").on((data) => {
@@ -101,7 +102,6 @@ export const Chat = (props) => {
           color="#4fa94d"
           ariaLabel="triangle-loading"
           wrapperStyle={{}}
-          wrapperClassName=""
           visible={true}
         />
       </div>
@@ -115,7 +115,7 @@ export const Chat = (props) => {
         exit={{ opacity: 0 }}
       >
         <div style={{ padding: "40px" }}></div>
-        {transactions.map((transaction, index) =>
+        {transactions.map((transaction: Transaction, index) =>
           transaction.from === wallet.publicKey ? (
             <div className="chat-right-wrapper" key={index}>
               <div className="chat-sentence">
@@ -167,6 +167,7 @@ export const Chat = (props) => {
             name="address"
             value={query.get("address") || ""}
             style={{ display: "none" }}
+            placeholder="address"
             readOnly
           />
           <input
@@ -175,6 +176,7 @@ export const Chat = (props) => {
             name="amount"
             value="0"
             style={{ display: "none" }}
+            placeholder="amount"
             readOnly
           />
 

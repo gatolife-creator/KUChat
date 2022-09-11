@@ -1,4 +1,5 @@
 import React from "react";
+import P5 from "p5";
 import Sketch from "react-p5";
 import { Point, Line, Linear } from "../../ts/react-shapeshape";
 
@@ -12,14 +13,14 @@ export const PerpendicularBisector = () => {
   let r = 100;
   let tmp: Linear;
 
-  const setup = (p5, canvasParentRef) => {
+  const setup = (p5: P5, canvasParentRef) => {
     canvas = p5
       .createCanvas(window.innerWidth, window.innerHeight)
       .parent(canvasParentRef);
     p5.angleMode(p5.DEGREES);
   };
 
-  const draw = (p5) => {
+  const draw = (p5: P5) => {
     p5.background(30);
     p5.translate(p5.width / 2, p5.height / 2);
 
@@ -55,7 +56,7 @@ export const PerpendicularBisector = () => {
     p5.pop();
   };
 
-  const windowResized = (p5) => {
+  const windowResized = (p5: P5) => {
     canvas = p5.resizeCanvas(
       window.innerWidth <= 599 ? window.innerWidth : window.innerWidth - 15,
       window.innerHeight

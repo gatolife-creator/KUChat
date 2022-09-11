@@ -1,3 +1,4 @@
+import { Transaction } from "./transaction";
 const TinySegmenter = require('tiny-segmenter')
 
 const segmenter = new TinySegmenter();
@@ -39,7 +40,7 @@ export class SearchEngine {
         this.database = engine.database;
     }
 
-    search(text: string) {
+    search<T extends object|Transaction>(text: string) {
         if (!text) return [];
         const segments = segmenter.segment(text);
         const filtered = SearchEngine.filter(segments);
@@ -66,7 +67,7 @@ export class SearchEngine {
         //値段順
         array.sort((a, b) => b.value - a.value);
 
-        const result: object[] = [];
+        const result: T[] = [];
         for (const item of array) {
             result.push(this.docs[item.key]);
         }

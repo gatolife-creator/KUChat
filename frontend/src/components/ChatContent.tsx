@@ -1,16 +1,12 @@
 import React from "react";
-import { useEffect } from "react";
+import { Transaction } from "../ts/transaction";
 import { isURL } from "../ts/utility";
 
 export const ChatContent = (props) => {
   const { query, transactions } = props;
-  // useEffect(() => {
-  //   console.log("ChatContent");
-  // }, [transactions]);
-
   return (
     <>
-      {transactions.map((transaction) =>
+      {transactions.map((transaction: Transaction) =>
         transaction.from === "System" ? (
           <div className="chat-sentence chat-sentence-right">
             {isURL(transaction.amount) ? (

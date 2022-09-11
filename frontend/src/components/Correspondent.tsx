@@ -15,7 +15,7 @@ export default function Correspondent(props) {
       </ListItemDecorator>
       <ListItemContent>
         <Typography>{name}</Typography>
-        <Typography level="body2" noWrap>
+        <Typography noWrap>
           {message}
         </Typography>
       </ListItemContent>

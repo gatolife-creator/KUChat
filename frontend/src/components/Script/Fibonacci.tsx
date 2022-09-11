@@ -1,4 +1,5 @@
 import React from "react";
+import P5 from "p5";
 import Sketch from "react-p5";
 
 class Fib {
@@ -15,7 +16,7 @@ class Fib {
 
     this.resize = 50;
   }
-  fibS(p5) {
+  fibS(p5: P5) {
     p5.rectMode(p5.CENTER);
     for (let i = 0; i < this.count; i++) {
       if (i <= 1) {
@@ -67,7 +68,7 @@ class Fib {
     }
   }
 
-  fibD(p5) {
+  fibD(p5: P5) {
     p5.background(30);
     p5.translate(p5.width / 2, p5.height / 2);
 
@@ -93,7 +94,7 @@ export const Fibonacci = () => {
   let canvas;
   let fib: Fib;
 
-  const setup = (p5, canvasParentRef) => {
+  const setup = (p5: P5, canvasParentRef) => {
     canvas = p5
       .createCanvas(window.innerWidth, window.innerHeight)
       .parent(canvasParentRef);
@@ -101,19 +102,19 @@ export const Fibonacci = () => {
     fib.fibS(p5);
   };
 
-  const draw = (p5) => {
+  const draw = (p5: P5) => {
     fib.fibD(p5);
     fib.resize -= (1 / 75) * fib.resize;
   };
 
-  const windowResized = (p5) => {
+  const windowResized = (p5: P5) => {
     canvas = p5.resizeCanvas(
       window.innerWidth <= 599 ? window.innerWidth : window.innerWidth - 15,
       window.innerHeight
     );
   };
 
-  const mouseWheel = (p5, event) => {
+  const mouseWheel = (p5: P5, event) => {
     fib.resize -= (event.delta / 1000) * fib.resize;
   };
 
