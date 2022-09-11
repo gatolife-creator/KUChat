@@ -38,7 +38,9 @@ export class Block {
     }
 
     hasValidTransactions(): boolean {
-        for (const tx of this.transactions) {
+        const len = this.transactions.length;
+        for (let i = 0; i < len; i++) {
+            const tx = this.transactions[i];
             if (!tx.isValid()) return false;
         }
         return true;

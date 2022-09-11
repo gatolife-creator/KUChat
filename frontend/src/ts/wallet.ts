@@ -25,7 +25,9 @@ export class Wallet {
     getBalance() {
         let balance = 0;
 
-        for (const block of this.blockchain.chain) {
+        const len = this.blockchain.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.blockchain.chain[i];
             for (const trans of block.transactions) {
                 if (trans.from === this.publicKey) {
                     balance -= trans.amount;
@@ -39,7 +41,9 @@ export class Wallet {
 
     getTransactions() {
         const transactions: Transaction[] = [];
-        for (const block of this.blockchain.chain) {
+        const len = this.blockchain.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.blockchain.chain[i];
             for (const trans of block.transactions) {
                 if (trans.from === this.publicKey || trans.to === this.publicKey) {
                     transactions.push(trans);
@@ -52,7 +56,9 @@ export class Wallet {
     getCorrespondents() {
         const transactions = this.getTransactions();
         const correspondents: string[] = [];
-        for (const transaction of transactions) {
+        const len = transactions.length;
+        for (let i = 0; i < len; i++) {
+            const transaction = transactions[i];
             if (transaction.from !== this.publicKey) {
                 correspondents.push(transaction.from);
             } else if (transaction.to !== this.publicKey) {
@@ -65,7 +71,9 @@ export class Wallet {
     getNFT(): NFT[] {
         const NFTs: NFT[] = [];
 
-        for (const block of this.blockchain.chain) {
+        const len = this.blockchain.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.blockchain.chain[i];
             for (const trans of block.transactions) {
                 if (!trans.nft) continue;
                 NFTs.push(trans.nft);

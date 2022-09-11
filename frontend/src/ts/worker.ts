@@ -32,7 +32,9 @@ interface docData {
 
 // TODO: 修正が必要
 export function setDocuments(data: docData) {
-    for (const block of data.blockchain.chain) {
+    const len = data.blockchain.chain.length;
+    for (let i = 0; i < len; i++) {
+        const block = data.blockchain.chain[i];
         for (const transaction of block.transactions) {
             const id = uuidv4();
             data.engine.add(id, transaction);

@@ -25,7 +25,9 @@ export class SearchEngine {
         const content = doc[this.field];
         const segments = segmenter.segment(content);
         const filtered = SearchEngine.filter(segments);
-        for (const item of filtered) {
+        const len = filtered.length;
+        for (let i = 0; i < len; i++) {
+            const item = filtered[i];
             if (this.database[item]) {
                 this.database[item].push(id);
             } else {
@@ -40,13 +42,15 @@ export class SearchEngine {
         this.database = engine.database;
     }
 
-    search<T extends object|Transaction>(text: string) {
+    search<T extends object | Transaction>(text: string) {
         if (!text) return [];
         const segments = segmenter.segment(text);
         const filtered = SearchEngine.filter(segments);
         let matchList: any[] = [];
 
-        for (const item of filtered) {
+        const len = filtered.length;
+        for (let i = 0; i < len; i++) {
+            const item = filtered[i];
             if (this.database[item]) {
                 matchList = matchList.concat(this.database[item]);
             }
@@ -56,7 +60,8 @@ export class SearchEngine {
         let count: any = {};
 
         // 重複しているIDのカウント
-        for (let i = 0; i < matchList.length; i++) {
+        const len2 = matchList.length;
+        for (let i = 0; i < len2; i++) {
             let elm = matchList[i];
             count[elm] = (count[elm] || 0) + 1;
         }
@@ -67,8 +72,10 @@ export class SearchEngine {
         //値段順
         array.sort((a, b) => b.value - a.value);
 
+        const len3 = array.length;
         const result: T[] = [];
-        for (const item of array) {
+        for (let i = 0; i < len3; i++) {
+            const item = array[i];
             result.push(this.docs[item.key]);
         }
 

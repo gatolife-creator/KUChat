@@ -11,9 +11,6 @@ export class Filter {
     }
 
     setFilterList() {
-        for(const word of this.list) {
-            this.list = this.list.add(word);
-        }
         return new RegExp(Array.from(this.list).join('|'), 'igm');
     }
 
@@ -23,8 +20,9 @@ export class Filter {
 
     isPure(sentence: string): boolean {
         const words = segmenter.segment(sentence);
-        for(const word of words) {
-            if(this.list.has(word)) return false;
+        const len = words.length;
+        for (let i = 0; i < len; i++) {
+            if (this.list.has(words[i])) return false;
         }
         return true;
     }

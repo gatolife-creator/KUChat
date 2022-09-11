@@ -20,7 +20,6 @@ const phoneNumber = "^0\\d{1,3}-\\d{2,4}-\\d{3,4}$";
 const email = "^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}$";
 const postalCode = "^\\d{3}-\\d{4}$";
 const creditCard = "(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6011[0-9]{12}|3(?:0[0-5]|[68][0-9])[0-9]{11}|3[47]{13}|(?:2131|1800|35[0-9]{3})[0-9]{11})";
-// const unwanted = "(.)\\1{9,}";
 const filterList = bougen.concat(discriminativeExpression, shimoneta, IPv4, phoneNumber, email, postalCode, creditCard);
 const filter = new Filter(filterList);
 

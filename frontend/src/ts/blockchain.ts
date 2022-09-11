@@ -58,9 +58,12 @@ export class Blockchain {
 
     getBalanceOfAddress(address: string): number {
         let balance = 0;
-
-        for (const block of this.chain) {
-            for (const trans of block.transactions) {
+        const len = this.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.chain[i];
+            const len2 = block.transactions.length;
+            for (let j = 0; j < len2; j++) {
+                const trans = block.transactions[j];
                 if (trans.from === address) {
                     balance -= trans.amount;
                 } else if (trans.to === address) {
@@ -102,7 +105,8 @@ export class Blockchain {
          * 一番最初のブロックはそれよりも前のブロックが存在しないので、
          * iは1から始める
          */
-        for (let i = 1; i < this.chain.length; i++) {
+        const len = this.chain.length;
+        for (let i = 1; i < len; i++) {
             const currentBlock = this.chain[i];
             const previousBlock = this.chain[i - 1];
 
