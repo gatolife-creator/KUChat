@@ -8,22 +8,12 @@ interface transactionData {
     toAddress: string,
 }
 
-// interface miningData {
-//     blockchain: Blockchain,
-//     address: string,
-// }
-
 export function getTransactionsBetweenTwo(data: transactionData) {
     return data.blockchain.getTransactionsBetweenTwo(
         data.fromAddress,
         data.toAddress,
     )
 }
-
-// export function minePendingTransactions(data: miningData) {
-//     data.blockchain.minePendingTransactions(data.address);
-//     return data.blockchain;
-// }
 
 interface docData {
     blockchain: Blockchain,
@@ -42,12 +32,3 @@ export function setDocuments(data: docData) {
     }
     return data.engine;
 }
-
-// interface searchData {
-//     engine: SearchEngine,
-//     query: string,
-// }
-
-// export function search(data: searchData) {
-//     return data.engine.search(data.query);
-// }

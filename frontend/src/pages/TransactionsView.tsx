@@ -6,14 +6,13 @@ import CustomLinkify from "../components/CustomLinkify";
 import TipDialog from "../components/FormDialog";
 import { Grid } from "react-loader-spinner";
 
-import { Blockchain } from "../ts/blockchain";
 import { blockchain } from "../common/common";
 import { Transaction } from "../ts/transaction";
 
 import { gun } from "../common/common";
 import { createWorker } from "../common/common";
 
-export const TransactionsView = (props) => {
+export const TransactionsView = () => {
   const location = useLocation();
   const search = location.search;
   const query = new URLSearchParams(search);

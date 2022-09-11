@@ -43,7 +43,9 @@ export class Wallet {
         const len = this.blockchain.chain.length;
         for (let i = 0; i < len; i++) {
             const block = this.blockchain.chain[i];
-            for (const trans of block.transactions) {
+            const len2 = block.transactions.length
+            for (let j = 0; j < len2; j++) {
+                const trans = block.transactions[j];
                 if (trans.from === this.publicKey || trans.to === this.publicKey) {
                     transactions.push(trans);
                 }
@@ -65,6 +67,38 @@ export class Wallet {
             }
         }
         return [...new Set(correspondents)];
+    }
+
+    getSent() {
+        const transactions: Transaction[] = [];
+        const len = this.blockchain.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.blockchain.chain[i];
+            const len2 = block.transactions.length;
+            for (let j = 0; j < len2; j++) {
+                const trans = block.transactions[j];
+                if (trans.from === this.publicKey) {
+                    transactions.push(trans);
+                }
+            }
+        }
+        return transactions;
+    }
+
+    getReceived() {
+        const transactions: Transaction[] = [];
+        const len = this.blockchain.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.blockchain.chain[i];
+            const len2 = block.transactions.length;
+            for (let j = 0; j < len2; j++) {
+                const trans = block.transactions[j];
+                if (trans.to === this.publicKey) {
+                    transactions.push(trans);
+                }
+            }
+        }
+        return transactions;
     }
 
     sign(transaction: Transaction) {

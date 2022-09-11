@@ -9,6 +9,7 @@ import { Chat } from "../pages/Chat";
 import { WalletView } from "../pages/Wallet";
 import { MessageSearch } from "../pages/MessageSearch";
 import { TransactionsView } from "../pages/TransactionsView";
+import { History } from "../pages/History";
 import { HowToUse } from "../pages/HowToUse";
 import { NotFound } from "../pages/NotFound";
 
@@ -29,7 +30,8 @@ export const AnimatedRoutes = () => {
         <Route path="/qrcode-reader" element={<QRCodeReaderPage />} />
         <Route path="/message-search" element={<MessageSearch />} />
         <Route path="/transactions-view" element={<TransactionsView />} />
-        <Route path="how-to-use" element={<HowToUse />} />
+        <Route path="/how-to-use" element={<HowToUse />} />
+        <Route path="/history" element={<History />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
