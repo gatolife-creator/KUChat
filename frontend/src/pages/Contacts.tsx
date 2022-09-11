@@ -54,22 +54,26 @@ export const Contacts = () => {
         <hr />
         <h3 className="mt-2">チャット履歴</h3>
 
-        <Box sx={{ backgroundColor: "#B6C9FF" }}>
-          <List
-            variant="outlined"
-            aria-labelledby="ellipsis-list-demo"
-            sx={{ "--List-decorator-size": "56px" }}
-          >
-            {correspondents.map((correspondent, index) => (
-              <Correspondent
-                name={correspondent}
-                address={correspondent}
-                message={"最新のメッセージ"}
-                key={index}
-              />
-            ))}
-          </List>
-        </Box>
+        {correspondents.length > 0 ? (
+          <Box sx={{ backgroundColor: "#B6C9FF" }}>
+            <List
+              variant="outlined"
+              aria-labelledby="ellipsis-list-demo"
+              sx={{ "--List-decorator-size": "56px" }}
+            >
+              {correspondents.map((correspondent, index) => (
+                <Correspondent
+                  name={correspondent}
+                  address={correspondent}
+                  message={"最新のメッセージ"}
+                  key={index}
+                />
+              ))}
+            </List>
+          </Box>
+        ) : (
+          <></>
+        )}
       </Container>
     </motion.main>
   );
