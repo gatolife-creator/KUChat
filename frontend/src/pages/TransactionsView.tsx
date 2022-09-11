@@ -1,25 +1,72 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { useWorker } from "@shopify/react-web-worker";
 import CustomLinkify from "../components/CustomLinkify";
 import TipDialog from "../components/FormDialog";
+import { Grid } from "react-loader-spinner";
+
+import { Blockchain } from "../ts/blockchain";
+import { blockchain } from "../common/common";
 import { Transaction } from "../ts/transaction";
 
+import { gun } from "../common/common";
+import { createWorker } from "../common/common";
+
 export const TransactionsView = (props) => {
-  const { blockchain } = props;
   const location = useLocation();
   const search = location.search;
   const query = new URLSearchParams(search);
   const fromAddress = query.get("from");
   const toAddress = query.get("to");
   const hash = query.get("hash");
+  const worker = useWorker<any, []>(createWorker);
 
-  const transactions = blockchain.getTransactionsBetweenTwo(
-    fromAddress,
-    toAddress
-  );
+  const [transactions, setTransactions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return (
+  useLayoutEffect(() => {
+    gun.get("blockchain").on(() => {
+      const dataForWorker = {
+        blockchain: blockchain,
+        fromAddress: fromAddress,
+        toAddress: toAddress,
+      };
+
+      (async () => {
+        const transactions = await worker.getTransactionsBetweenTwo(
+          dataForWorker
+        );
+        setTransactions(transactions);
+        setTimeout(() => setIsLoading(false), 500);
+      })();
+    });
+  }, []);
+
+  return isLoading ? (
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div style={{ padding: "40px" }}></div>
+      <div className="absolute-center">
+        <Grid
+          height="70"
+          width="70"
+          color="#4fa94d"
+          ariaLabel="triangle-loading"
+          wrapperStyle={{}}
+          visible={true}
+        />
+      </div>
+    </motion.main>
+  ) : (
     <motion.main
       className="chat-main"
       initial={{ opacity: 0 }}

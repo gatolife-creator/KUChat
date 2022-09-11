@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
@@ -9,11 +10,11 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import Chip from "@mui/joy/Chip";
 import Box from "@mui/joy/Box";
 import List from "@mui/joy/List";
-import React from "react";
 
-export const Contacts = (props) => {
+import { wallet } from "../common/common";
+
+export const Contacts = () => {
   const navigate = useNavigate();
-  const { wallet } = props;
   const correspondents = wallet.getCorrespondents();
 
   const submit = (e) => {
@@ -52,10 +53,10 @@ export const Contacts = (props) => {
         </CssVarsProvider>
         <hr />
         <h3 className="mt-2">チャット履歴</h3>
-        
+
         <Box sx={{ backgroundColor: "#B6C9FF" }}>
           <List
-          variant="outlined"
+            variant="outlined"
             aria-labelledby="ellipsis-list-demo"
             sx={{ "--List-decorator-size": "56px" }}
           >

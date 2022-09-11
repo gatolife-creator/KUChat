@@ -133,14 +133,14 @@ export class Blockchain {
 
         // 保留中のトランザクションの情報を引き継ぐ
         const pendingTransactions = blockchain.pendingTransactions.map(
-            (transaction: any) => new Transaction(transaction.from, transaction.to, transaction.amount, transaction.message, transaction.nft)
+            (transaction: any) => new Transaction(transaction.from, transaction.to, transaction.amount, transaction.message)
         );
 
         // チェーンの情報を引き継ぐ
         const chain = blockchain.chain.map(
             (block: any) => {
                 const transactions = block.transactions.map((transaction: any) => {
-                    const tmpTransaction = new Transaction(transaction.from, transaction.to, transaction.amount, transaction.message, transaction.nft);
+                    const tmpTransaction = new Transaction(transaction.from, transaction.to, transaction.amount, transaction.message);
                     tmpTransaction.signature = transaction.signature;
                     tmpTransaction.timestamp = transaction.timestamp;
                     return tmpTransaction;

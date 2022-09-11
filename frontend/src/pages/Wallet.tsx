@@ -1,13 +1,14 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Container } from "@mui/material";
 import { IconButton } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
-import React from "react";
 
-export const WalletView = (props) => {
-  const { wallet } = props;
+import { wallet } from "../common/common";
+
+export const WalletView = () => {
   return (
     <motion.main
       initial={{ opacity: 0 }}

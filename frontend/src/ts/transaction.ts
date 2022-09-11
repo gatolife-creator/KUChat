@@ -1,6 +1,5 @@
 import { SHA256 } from "crypto-js";
 import { ec } from "elliptic";
-import { NFT } from "./nft";
 import { Filter } from "./filter";
 
 const secp256k1 = new ec("secp256k1");
@@ -30,16 +29,14 @@ export class Transaction {
     message: string;
     timestamp: number;
     signature: string;
-    nft: NFT | undefined;
 
-    constructor(from: string, to: string, amount: number, message: string, nft?: NFT) {
+    constructor(from: string, to: string, amount: number, message: string) {
         this.from = from;
         this.to = to;
         this.amount = amount;
         this.message = message;
         this.timestamp = Date.now();
         this.signature = "";
-        this.nft = nft;
     }
 
     calculateHash(): string {
@@ -48,8 +45,7 @@ export class Transaction {
             this.to +
             this.amount +
             this.message +
-            this.timestamp +
-            this.nft
+            this.timestamp
         ).toString();
     }
 

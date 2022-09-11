@@ -1,7 +1,6 @@
 import { ec as EC } from "elliptic";
 import { Transaction } from "./transaction";
 import { Blockchain } from "./blockchain";
-import { NFT } from "./nft";
 
 const ec = new EC("secp256k1");
 
@@ -16,8 +15,8 @@ export class Wallet {
         this.publicKey = this.keyPair.getPublic("hex");
     }
 
-    createTransaction(recipient: string, amount: number, message: string, nft?: NFT): Transaction {
-        const transaction = new Transaction(this.publicKey, recipient, amount, message, nft);
+    createTransaction(recipient: string, amount: number, message: string): Transaction {
+        const transaction = new Transaction(this.publicKey, recipient, amount, message);
         const signedTransaction = this.sign(transaction);
         return signedTransaction;
     }
@@ -66,21 +65,6 @@ export class Wallet {
             }
         }
         return [...new Set(correspondents)];
-    }
-
-    getNFT(): NFT[] {
-        const NFTs: NFT[] = [];
-
-        const len = this.blockchain.chain.length;
-        for (let i = 0; i < len; i++) {
-            const block = this.blockchain.chain[i];
-            for (const trans of block.transactions) {
-                if (!trans.nft) continue;
-                NFTs.push(trans.nft);
-            }
-        }
-
-        return NFTs;
     }
 
     sign(transaction: Transaction) {
