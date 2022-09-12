@@ -74,6 +74,18 @@ export class Blockchain {
         return balance;
     }
 
+    extractTransactions() {
+        const transactions: Transaction[] = [];
+        const len = this.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.chain[i];
+            for (let j = 0; j < block.transactions.length; j++) {
+                transactions.push(block.transactions[j]);
+            }
+        }
+        return transactions;
+    }
+
     getTransactionsOfAddress(address: string): Transaction[] {
         const transactions: Transaction[] = [];
         const len = this.chain.length;
