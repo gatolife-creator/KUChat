@@ -12,12 +12,7 @@ export const Home = () => {
       exit={{ opacity: 0 }}
     >
       <Container maxWidth="lg" sx={{ paddingTop: "100px" }}>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-          // sx={{ width: "100%", margin: "0 auto" }}
-        >
+        <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
           <ActionAreaCard
             title="チャット"
             content="他の人をチャットをしたり、仮想通貨をプレゼントすることができます。勉強とかに役立ててみよう。"
