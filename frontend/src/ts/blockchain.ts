@@ -21,7 +21,7 @@ export class Blockchain {
     addTransaction(transaction: Transaction): void {
 
         if (!transaction.from || !transaction.to) {
-            throw new Error("Transaction must include from and to address");
+            throw new Error("トランザクションはfromアドレスとtoアドレスが必要です。");
         }
 
         if (transaction.to === "System") {
@@ -35,7 +35,7 @@ export class Blockchain {
         if (transaction.amount < 0) {
             throw new Error('送金額は0以上でなくてはなりません。');
         }
-        // Making sure that the amount sent is not greater than existing balance
+
         const walletBalance = this.getBalanceOfAddress(transaction.from);
         if (walletBalance < transaction.amount) {
             throw new Error('十分な残高がありません。');
@@ -76,8 +76,12 @@ export class Blockchain {
 
     getTransactionsOfAddress(address: string): Transaction[] {
         const transactions: Transaction[] = [];
-        for (const block of this.chain) {
-            for (const trans of block.transactions) {
+        const len = this.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.chain[i];
+            const len2 = block.transactions.length;
+            for (let j = 0; j < len2; j++) {
+                const trans = block.transactions[j];
                 if (trans.from === address || trans.to === address) {
                     transactions.push(trans);
                 }
@@ -87,10 +91,13 @@ export class Blockchain {
     }
 
     getTransactionsBetweenTwo(address1: string, address2: string): Transaction[] {
-        let transactions: Transaction[] = [];
-
-        for (const block of this.chain) {
-            for (const trans of block.transactions) {
+        const transactions: Transaction[] = [];
+        const len = this.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.chain[i];
+            const len2 = block.transactions.length;
+            for (let j = 0; j < len2; j++) {
+                const trans = block.transactions[j];
                 if ((trans.from === address1 && trans.to === address2) ||
                     (trans.from === address2 && trans.to === address1)) {
                     transactions.push(trans);
@@ -100,11 +107,8 @@ export class Blockchain {
         return transactions;
     }
 
+
     isChainValid(): boolean {
-        /**
-         * 一番最初のブロックはそれよりも前のブロックが存在しないので、
-         * iは1から始める
-         */
         const len = this.chain.length;
         for (let i = 1; i < len; i++) {
             const currentBlock = this.chain[i];
