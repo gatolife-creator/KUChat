@@ -6,9 +6,12 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 
 import { wallet } from "../common/common";
-
-const sent = wallet.getSent();
-const received = wallet.getReceived();
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import { Link } from "react-router-dom";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,6 +44,8 @@ function a11yProps(index: number) {
 }
 
 export default function FullWidthTabs() {
+  const sent = wallet.getSent();
+  const received = wallet.getReceived();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -65,22 +70,62 @@ export default function FullWidthTabs() {
         >
           <Tab label="送信" {...a11yProps(0)} />
           <Tab label="受信" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Item" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        {sent.map((transaction, index) => (
-          <p key={index}>{transaction.message}</p>
-        ))}
+        <Grid item xs={12} md={6}>
+          <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
+            送信履歴
+          </Typography>
+          <List dense={false}>
+            {sent
+              .slice()
+              .reverse()
+              .map((transaction, index) => (
+                <ListItem
+                  key={index}
+                  component={Link}
+                  to={"/chat?address=" + transaction.to}
+                  sx={{ color: "black" }}
+                >
+                  <ListItemText
+                    primary={transaction.message}
+                    secondary={transaction.timestamp}
+                  />
+                </ListItem>
+              ))}
+          </List>
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
-        {received.map((transaction, index) => (
-          <p key={index}>{transaction.message}</p>
-        ))}
+        <Grid item xs={12} md={6}>
+          <Typography sx={{ mt: 2, mb: 2 }} variant="h6" component="div">
+            受信履歴
+          </Typography>
+          <List dense={false}>
+            {received
+              .slice()
+              .reverse()
+              .map((transaction, index) => (
+                <ListItem
+                  key={index}
+                  component={Link}
+                  to={"/chat?address=" + transaction.from}
+                  sx={{ color: "black" }}
+                >
+                  <ListItemText
+                    primary={transaction.message}
+                    secondary={transaction.timestamp}
+                  />
+                </ListItem>
+              ))}
+          </List>
+        </Grid>
       </TabPanel>
       <TabPanel value={value} index={2} dir={theme.direction}>
-        Item Three
+        Item
       </TabPanel>
     </Box>
   );
