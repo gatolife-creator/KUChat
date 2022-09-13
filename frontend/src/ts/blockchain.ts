@@ -136,7 +136,15 @@ export class Blockchain {
             }
 
             if (currentBlock.preHash !== previousBlock.hash) {
-                console.warn("preHashと直前のハッシュ値が一致しません")
+                console.warn("preHashと直前のハッシュ値が一致しません");
+                return false;
+            }
+
+            // NOTE しっかりと動作するかの確証はない
+            const transactions = this.extractTransactions();
+            const transactionsSet = new Set(transactions);
+            if (transactionsSet.size !== transactions.length) {
+                console.warn("トランザクションに重複があります。");
                 return false;
             }
         }
@@ -184,6 +192,10 @@ export class Blockchain {
         if (chain.length <= this.chain.length) return false;
 
         this.chain = chain;
+    }
+
+    updatePendingTransactions(transactions: Transaction[]): void {
+        this.pendingTransactions = Array.from(new Set(this.pendingTransactions.concat(transactions)));
     }
 
     selfDestruct(): void {
