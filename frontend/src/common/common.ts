@@ -32,5 +32,6 @@ gun.get("blockchain").once((data) => {
 gun.get("blockchain").on((data) => {
     const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
     blockchain.replaceChain(parsedBlockchain.chain);
-      console.log(blockchain);
+    // blockchain.updatePendingTransactions(parsedBlockchain.pendingTransactions);
+    console.log(blockchain);
 })

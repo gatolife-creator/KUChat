@@ -108,19 +108,23 @@ export default function FullWidthTabs() {
             {received
               .slice()
               .reverse()
-              .map((transaction, index) => (
-                <ListItem
-                  key={index}
-                  component={Link}
-                  to={"/chat?address=" + transaction.from}
-                  sx={{ color: "black" }}
-                >
-                  <ListItemText
-                    primary={transaction.message}
-                    secondary={transaction.timestamp}
-                  />
-                </ListItem>
-              ))}
+              .map((transaction, index) =>
+                transaction.from !== "System" ? (
+                  <ListItem
+                    key={index}
+                    component={Link}
+                    to={"/chat?address=" + transaction.from}
+                    sx={{ color: "black" }}
+                  >
+                    <ListItemText
+                      primary={transaction.message}
+                      secondary={transaction.timestamp}
+                    />
+                  </ListItem>
+                ) : (
+                  <React.Fragment key={index}></React.Fragment>
+                )
+              )}
           </List>
         </Grid>
       </TabPanel>
