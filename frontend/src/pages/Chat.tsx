@@ -18,6 +18,10 @@ import { gun } from "../common/common";
 import { wallet } from "../common/common";
 import { createWorker } from "../common/common";
 
+import { test } from "../ts/db";
+
+test();
+
 // TODO UTXOデータベースを実装したい。
 // NOTE 直近のトランザクションだけを読み込むようにしたいが、ブロックチェーン上だとちょっとめんどくさそう。
 // TODO 使い道は考えていないが、チャットの内容を公開鍵と秘密鍵を使って暗号化できるようにしてみたい。これをすることで、受信者と送信者以外の人には見れないメッセージを作り出すことができる。
