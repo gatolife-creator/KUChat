@@ -13,8 +13,7 @@ import { gun } from "../common/common";
 import { createWorker } from "../common/common";
 
 export const TransactionsView = () => {
-  const location = useLocation();
-  const search = location.search;
+  const search = useLocation().search;
   const query = new URLSearchParams(search);
   const fromAddress = query.get("from");
   const toAddress = query.get("to");

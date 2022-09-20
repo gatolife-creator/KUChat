@@ -20,7 +20,7 @@ import { createWorker } from "../common/common";
 import { Katana } from "../ts/katana";
 
 const katana = new Katana("database");
-katana.put("key", "data");
+katana.put("key", blockchain);
 let result;
 katana
   .get("key")
@@ -33,8 +33,7 @@ katana
 // NOTE 入力欄の自動フォーカス機能は、Androidでは使い勝手が良くないらしい。
 
 export const Chat = () => {
-  const location = useLocation();
-  const search = location.search;
+  const search = useLocation().search;
   const query = new URLSearchParams(search);
 
   const [transactions, setTransactions] = useState([]);
@@ -66,9 +65,6 @@ export const Chat = () => {
     if (!message.value) return false;
 
     try {
-      // TODO この下のマイニングはそのうち、マイニングページに移動させる
-      // TODO つまり、メッセージの送信と同時にマイニングすることを中止する
-      // TODO デバッグの関係でマイニングしたのであって、本来の形ではない。今にプログラムのままだと、チェーンの置き換えの際に、一部のトランザクションが消滅してしまう。
       blockchain.minePendingTransactions(wallet.publicKey);
       const trans = wallet.createTransaction(address.value, 10, message.value);
       blockchain.addTransaction(trans);
