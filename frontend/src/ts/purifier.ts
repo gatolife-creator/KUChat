@@ -2,7 +2,7 @@ const TinySegmenter = require('tiny-segmenter')
 
 const segmenter = new TinySegmenter();
 
-export class Filter {
+export class Purifier {
     list: Set<string>;
     regex: RegExp;
     constructor(list: string[]) {

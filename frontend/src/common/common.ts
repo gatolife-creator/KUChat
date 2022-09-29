@@ -1,7 +1,7 @@
 import { createWorkerFactory } from "@shopify/react-web-worker";
 
-import { Blockchain } from "../ts/blockchain";
-import { Wallet } from "../ts/wallet";
+import { Blockchain } from "../ts/blockchain/blockchain";
+import { Wallet } from "../ts/blockchain/wallet";
 import Gun from "gun";
 
 export const createWorker = createWorkerFactory(() => import("../ts/worker"));

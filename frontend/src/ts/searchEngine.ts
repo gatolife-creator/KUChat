@@ -1,4 +1,4 @@
-import { Transaction } from "./transaction";
+import { Transaction } from "./blockchain/transaction";
 const TinySegmenter = require('tiny-segmenter')
 
 const segmenter = new TinySegmenter();
