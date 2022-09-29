@@ -18,14 +18,22 @@ import { gun } from "../common/common";
 import { wallet } from "../common/common";
 import { createWorker } from "../common/common";
 import { Katana } from "../ts/katana";
+import { Blockchain } from "../ts/blockchain/blockchain";
 
 const katana = new Katana("database");
 katana.put("key", blockchain);
-let result;
-katana
-  .get("key")
-  .then((data) => (result = data))
-  .then(() => console.log(result));
+katana.get("key").then((data) => {
+  const anotherBlockchain = new Blockchain();
+  anotherBlockchain.chain = data.value.chain;
+  anotherBlockchain.pendingTransactions = data.value.pendingTransactions;
+  blockchain.replaceChain(anotherBlockchain.chain);
+});
+
+katana.emit("key");
+
+katana.on((data) => {
+  katana.put("key", data.value);
+});
 
 // TODO UTXOデータベースを実装したい。
 // NOTE 直近のトランザクションだけを読み込むようにしたいが、ブロックチェーン上だとちょっとめんどくさそう。

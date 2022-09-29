@@ -1,22 +1,31 @@
-const express = require('express')
+const express = require("express");
 const app = express();
-const path = require('path');
-const Gun = require("gun");
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const path = require("path");
+// const Gun = require("gun");
 const port = process.env.PORT || 3001;
 
-app.use(Gun.serve);
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("/api", (req, res) => {
-    res.json({ message: "Hello World!" });
+  res.json({ message: "Hello World!" });
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
 
-const server = app.listen(port, () => {
-    console.log(`listening on *:${port}`);
-})
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("update", (data) => {
+    console.log("data: " + data);
+    socket.broadcast.emit("update", data);
+  });
+});
 
-Gun({ web: server });
+server.listen(port, () => {
+  console.log(`listening on *:${port}`);
+});
