@@ -17,7 +17,7 @@
         "bip39": "^3.0.4",
         "crypto-js": "^4.1.1",
         "elliptic": "^6.5.4",
-        "framer-motion": "^7.2.0",
+        "framer-motion": "^7.3.2",
         "gun": "^0.2020.1238",
         "lzutf8": "^0.6.3",
         "node-sass": "^7.0.1",
