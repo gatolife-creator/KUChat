@@ -23,6 +23,6 @@ export class PIIDetector {
 
     includePII(sentence: string): boolean {
         if (sentence.match(this.regex)) return true;
-        else return true;
+        else return false;
     }
 }
