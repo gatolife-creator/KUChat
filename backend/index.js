@@ -7,6 +7,8 @@ const io = new Server(server);
 const path = require("path");
 const port = process.env.PORT || 3001;
 
+let blockchain;
+
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("/api", (req, res) => {
@@ -18,7 +20,10 @@ app.get("*", (req, res) => {
 });
 
 io.on("connection", (socket) => {
+  if(blockchain) socket.broadcast.emit("update", blockchain);
+  
   socket.on("update", (data) => {
+    blockchain = data
     socket.broadcast.emit("update", data);
   });
 });

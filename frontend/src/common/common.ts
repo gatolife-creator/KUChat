@@ -25,3 +25,5 @@ katana.get("key").then((data) => {
     const storedBlockchain = data.value;
     blockchain = Blockchain.jsonToBlockchain(storedBlockchain);
 });
+
+katana.emit("key");

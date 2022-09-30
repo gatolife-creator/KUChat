@@ -32,6 +32,7 @@ export const Chat = () => {
     const func = (data) => {
       const anotherBlockchain = Blockchain.jsonToBlockchain(data.value);
       blockchain.replaceChain(anotherBlockchain.chain);
+      katana.put("key", JSON.stringify(blockchain));
       const transactions = blockchain.getTransactionsBetweenTwo(
         wallet.publicKey,
         query.get("address")!
@@ -43,6 +44,7 @@ export const Chat = () => {
       console.log(blockchain);
     });
     katana.on((data) => {
+      console.log(data);
       func(data);
     });
     setTimeout(() => {
