@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
@@ -11,10 +11,13 @@ import Chip from "@mui/joy/Chip";
 import Box from "@mui/joy/Box";
 import List from "@mui/joy/List";
 
+import { blockchain } from "../common/common";
 import { wallet } from "../common/common";
 
 export const Contacts = () => {
   const navigate = useNavigate();
+
+  wallet.blockchain = blockchain;
   const correspondents = wallet.getCorrespondents();
 
   const submit = (e) => {

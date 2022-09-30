@@ -9,6 +9,7 @@ export const createWorker = createWorkerFactory(() => import("../ts/worker"));
 export let blockchain = new Blockchain();
 
 export let wallet: Wallet;
+
 if (localStorage.getItem("privateKey")) {
     wallet = Wallet.restoreWalletFromPrivateKey(
         localStorage.getItem("privateKey")!,
@@ -18,6 +19,7 @@ if (localStorage.getItem("privateKey")) {
     wallet = new Wallet(blockchain);
     localStorage.setItem("privateKey", wallet.keyPair.getPrivate("hex"));
 }
+
 export const katana = new Katana("database");
 katana.get("key").then((data) => {
     const storedBlockchain = data.value;
