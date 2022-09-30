@@ -5,7 +5,6 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const path = require("path");
-// const Gun = require("gun");
 const port = process.env.PORT || 3001;
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
@@ -19,9 +18,7 @@ app.get("*", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
   socket.on("update", (data) => {
-    console.log("data: " + data);
     socket.broadcast.emit("update", data);
   });
 });

@@ -18,15 +18,10 @@ export class Katana {
                 store: "key,value",
             });
         this.socket = io();
-
-        this.socket.on("update", (message) => {
-            console.log(message);
-        })
     }
 
     put(key: string, value: any): void {
         this.db.store.put({ key, value }).catch((error) => console.error(error));
-        console.log("successfully put");
     }
 
     get(key: string) {

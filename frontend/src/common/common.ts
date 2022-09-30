@@ -2,11 +2,11 @@ import { createWorkerFactory } from "@shopify/react-web-worker";
 
 import { Blockchain } from "../ts/blockchain/blockchain";
 import { Wallet } from "../ts/blockchain/wallet";
-import Gun from "gun";
+import { Katana } from "../ts/katana";
 
 export const createWorker = createWorkerFactory(() => import("../ts/worker"));
 
-export const blockchain = new Blockchain();
+export let blockchain = new Blockchain();
 
 export let wallet: Wallet;
 if (localStorage.getItem("privateKey")) {
@@ -18,20 +18,8 @@ if (localStorage.getItem("privateKey")) {
     wallet = new Wallet(blockchain);
     localStorage.setItem("privateKey", wallet.keyPair.getPrivate("hex"));
 }
-
-export const gun = Gun({
-    peers: [`${window.location.origin}/gun`, "http://localhost:3001/gun"],
+export const katana = new Katana("database");
+katana.get("key").then((data) => {
+    const storedBlockchain = data.value;
+    blockchain = Blockchain.jsonToBlockchain(storedBlockchain);
 });
-
-gun.get("blockchain").once((data) => {
-    if (!data) {
-        gun.get("blockchain").put({ blockchain: JSON.stringify(blockchain) });
-    }
-});
-
-gun.get("blockchain").on((data) => {
-    const parsedBlockchain = Blockchain.jsonToBlockchain(data.blockchain);
-    blockchain.replaceChain(parsedBlockchain.chain);
-    // blockchain.updatePendingTransactions(parsedBlockchain.pendingTransactions);
-    console.log(blockchain);
-})

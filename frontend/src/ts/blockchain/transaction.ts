@@ -60,10 +60,12 @@ export class Transaction {
     isValid(): boolean {
 
         if (!purifier.isPure(this.message)) {
+            console.warn("NGワードを含んでいます");
             throw new Error(`無効なメッセージです${this.message}`);
         }
 
         if (piidetector.includePII(this.message)) {
+            console.warn("PIIを含んでいます");
             throw new Error(`無効なメッセージです${this.message}`);
         }
 

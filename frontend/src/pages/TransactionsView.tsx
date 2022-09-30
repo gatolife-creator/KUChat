@@ -7,9 +7,8 @@ import TipDialog from "../components/FormDialog";
 import { Grid } from "react-loader-spinner";
 
 import { blockchain } from "../common/common";
-import { Transaction } from "../ts/transaction";
+import { Transaction } from "../ts/blockchain/transaction";
 
-import { gun } from "../common/common";
 import { createWorker } from "../common/common";
 
 export const TransactionsView = () => {
@@ -23,23 +22,7 @@ export const TransactionsView = () => {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useLayoutEffect(() => {
-    gun.get("blockchain").on(() => {
-      const dataForWorker = {
-        blockchain: blockchain,
-        fromAddress: fromAddress,
-        toAddress: toAddress,
-      };
-
-      (async () => {
-        const transactions = await worker.getTransactionsBetweenTwo(
-          dataForWorker
-        );
-        setTransactions(transactions);
-        setTimeout(() => setIsLoading(false), 500);
-      })();
-    });
-  }, []);
+  useLayoutEffect(() => {}, []);
 
   return isLoading ? (
     <motion.main
