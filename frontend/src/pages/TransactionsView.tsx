@@ -10,7 +10,6 @@ import { katana } from "../common/common";
 import { Transaction } from "../ts/blockchain/transaction";
 import { Blockchain } from "../ts/blockchain/blockchain";
 
-
 export const TransactionsView = () => {
   const search = useLocation().search;
   const query = new URLSearchParams(search);
@@ -22,22 +21,12 @@ export const TransactionsView = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
-    const func = (data) => {
-      const anotherBlockchain = Blockchain.jsonToBlockchain(data.value);
-      blockchain.replaceChain(anotherBlockchain.chain);
-      const transactions = blockchain.getTransactionsBetweenTwo(
-        fromAddress,
-        toAddress
-      );
-      setTransactions(transactions);
-    };
-    katana.get("key").then((data) => {
-      func(data);
-      console.log(blockchain);
-    });
-    katana.on((data) => {
-      func(data);
-    });
+    const transactions = blockchain.getTransactionsBetweenTwo(
+      fromAddress,
+      toAddress
+    );
+    setTransactions(transactions);
+
     setTimeout(() => {
       setIsLoading(false);
     }, 500);

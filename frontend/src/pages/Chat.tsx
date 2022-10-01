@@ -24,29 +24,18 @@ import { Blockchain } from "../ts/blockchain/blockchain";
 export const Chat = () => {
   const search = useLocation().search;
   const query = new URLSearchParams(search);
+  const fromAddress = query.get("address")!;
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
-    const func = (data: BlockchainData) => {
-      const anotherBlockchain = Blockchain.jsonToBlockchain(data.value);
-      blockchain.replaceChain(anotherBlockchain.chain);
-      katana.put("key", JSON.stringify(blockchain));
-      const transactions = blockchain.getTransactionsBetweenTwo(
-        wallet.publicKey,
-        query.get("address")!
-      );
-      setTransactions(transactions);
-    };
-    katana.get("key").then((data: BlockchainData) => {
-      func(data);
-      console.log(blockchain);
-    });
-    katana.on((data: BlockchainData) => {
-      console.log(Blockchain.jsonToBlockchain(data.value));
-      func(data);
-    });
+    const transactions = blockchain.getTransactionsBetweenTwo(
+      wallet.publicKey,
+      fromAddress
+    );
+    setTransactions(transactions);
+
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
@@ -67,7 +56,7 @@ export const Chat = () => {
       katana.emit("key");
       const transactions = blockchain.getTransactionsBetweenTwo(
         wallet.publicKey,
-        query.get("address")!
+        fromAddress
       );
       setTransactions(transactions);
       message.value = "";

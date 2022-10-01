@@ -25,7 +25,10 @@ app.get("*", (req: any, res: any) => {
 });
 
 io.on("connection", (socket: Socket) => {
-  if (blockchain) socket.broadcast.emit("update", { key: "key", value: JSON.stringify(blockchain) });
+  // NOTE サーバーの応答速度を早めるつもりでやってみたsetTimeout
+  setTimeout(() => {
+    if (blockchain) socket.broadcast.emit("update", { key: "key", value: JSON.stringify(blockchain) });
+  }, 1000)
 
   socket.on("update", (data: any) => {
     try {
