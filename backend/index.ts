@@ -30,6 +30,7 @@ io.on("connection", (socket: any) => {
   socket.on("update", (data: any) => {
     try {
       blockchainStr = data.value;
+      // NOTE ブロックチェーンの交換のせいで、一部のトランザクションが消滅する事態が発生しているかもしれない
       blockchain.replaceChain(Blockchain.jsonToBlockchain(blockchainStr).chain);
       socket.broadcast.emit("update", { key: "key", value: JSON.stringify(blockchain) });
     } catch (err: any) {
