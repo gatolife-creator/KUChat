@@ -1,5 +1,4 @@
-// TODO サーバーサイド側にもブロックチェーンを一時的に保持しておきたい。
-// TODO もちろん長いチェーンを残したいので。ブロックチェーンのファイルを追加しておく。
+// NOTE どうもチャットのところにしかkatanaを設置していないから、ブロックチェーンの更新を検知できないらしい
 
 const express = require("express");
 const app = express();
@@ -10,7 +9,10 @@ const io = new Server(server);
 const path = require("path");
 const port = process.env.PORT || 3001;
 
-let blockchain: any;
+import { Blockchain } from "../backend/blockchain/blockchain";
+
+const blockchain = new Blockchain();
+let blockchainStr: string;
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
@@ -23,11 +25,16 @@ app.get("*", (req: any, res: any) => {
 });
 
 io.on("connection", (socket: any) => {
-  if (blockchain) socket.broadcast.emit("update", blockchain);
+  if (blockchainStr) socket.broadcast.emit("update", blockchainStr);
 
   socket.on("update", (data: any) => {
-    blockchain = data
-    socket.broadcast.emit("update", data);
+    try {
+      blockchainStr = data.value;
+      blockchain.replaceChain(Blockchain.jsonToBlockchain(blockchainStr).chain);
+      socket.broadcast.emit("update", { key: "key", value: JSON.stringify(blockchain) });
+    } catch (err: any) {
+      console.warn(err.message);
+    }
   });
 });
 

@@ -44,7 +44,7 @@ export const Chat = () => {
       console.log(blockchain);
     });
     katana.on((data) => {
-      console.log(data);
+      console.log(Blockchain.jsonToBlockchain(data.value));
       func(data);
     });
     setTimeout(() => {
