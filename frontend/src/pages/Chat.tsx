@@ -11,7 +11,7 @@ import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { Grid } from "react-loader-spinner";
 
-import { blockchain } from "../common/common";
+import { blockchain, BlockchainData } from "../common/common";
 
 import { wallet } from "../common/common";
 import { katana } from "../common/common";
@@ -29,7 +29,7 @@ export const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
-    const func = (data) => {
+    const func = (data: BlockchainData) => {
       const anotherBlockchain = Blockchain.jsonToBlockchain(data.value);
       blockchain.replaceChain(anotherBlockchain.chain);
       katana.put("key", JSON.stringify(blockchain));
@@ -39,11 +39,11 @@ export const Chat = () => {
       );
       setTransactions(transactions);
     };
-    katana.get("key").then((data) => {
+    katana.get("key").then((data: BlockchainData) => {
       func(data);
       console.log(blockchain);
     });
-    katana.on((data) => {
+    katana.on((data: BlockchainData) => {
       console.log(Blockchain.jsonToBlockchain(data.value));
       func(data);
     });

@@ -10,6 +10,11 @@ export let blockchain = new Blockchain();
 
 export let wallet: Wallet;
 
+export interface BlockchainData {
+    key: "key";
+    value: string;
+}
+
 if (localStorage.getItem("privateKey")) {
     wallet = Wallet.restoreWalletFromPrivateKey(
         localStorage.getItem("privateKey")!,
@@ -21,8 +26,8 @@ if (localStorage.getItem("privateKey")) {
 }
 
 export const katana = new Katana("database");
-katana.get("key").then((data) => {
-    const storedBlockchain = data;
+katana.get("key").then((data: BlockchainData) => {
+    const storedBlockchain = data.value;
     blockchain = Blockchain.jsonToBlockchain(storedBlockchain);
 });
 
