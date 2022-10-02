@@ -49,11 +49,11 @@ export const Chat = () => {
     e.preventDefault();
 
     const { address, message } = e.target;
-    if (!message.value) return false;
+    if (!message.value.trim()) return false;
 
     try {
       blockchain.minePendingTransactions(wallet.publicKey);
-      const trans = wallet.createTransaction(address.value, 10, message.value);
+      const trans = wallet.createTransaction(address.value, 10, message.value.trim());
       blockchain.addTransaction(trans);
       blockchain.minePendingTransactions(wallet.publicKey);
       katana.put("key", JSON.stringify(blockchain));
@@ -69,9 +69,21 @@ export const Chat = () => {
       .querySelector("#scroll-target")
       ?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
-      if (error.message.includes("無効なメッセージです")) {
-        enqueueSnackbar("不適切な言葉が検出されました。", {
-          variant: "warning",
+      if (error.message.includes("NGワードを含んでいます")) {
+        enqueueSnackbar("不適切な言葉が検出されました", {
+          variant: "info",
+        });
+      }
+      
+      if (error.message.includes("PIIを含んでいます")) {
+        enqueueSnackbar("個人情報が検出されました", {
+          variant: "info",
+        });
+      }
+
+      if (error.message.includes("文字数が不十分です")) {
+        enqueueSnackbar("文字数が不十分です", {
+          variant: "info",
         });
       }
     }

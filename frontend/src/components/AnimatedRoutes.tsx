@@ -28,7 +28,7 @@ export const AnimatedRoutes = () => {
       <SnackbarProvider
         maxSnack={3}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        autoHideDuration={4000}
+        autoHideDuration={3000}
       >
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />

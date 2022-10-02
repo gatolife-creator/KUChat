@@ -60,12 +60,17 @@ export class Transaction {
 
         if (!purifier.isPure(this.message)) {
             console.warn("NGワードを含んでいます");
-            throw new Error(`無効なメッセージです${this.message}`);
+            throw new Error(`NGワードを含んでいます${this.message}`);
         }
 
         if (piidetector.includePII(this.message)) {
             console.warn("PIIを含んでいます");
-            throw new Error(`無効なメッセージです${this.message}`);
+            throw new Error(`PIIを含んでいます${this.message}`);
+        }
+
+        if (this.message.length <= 1) {
+            console.warn("文字数が不十分です");
+            throw new Error(`文字数が不十分です${this.message}`);
         }
 
         if (this.from === "System") return true;
