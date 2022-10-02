@@ -9,7 +9,7 @@ export const Scroll = () => {
       document
         .querySelector("#scroll-target")
         ?.scrollIntoView({ behavior: "smooth" });
-    }, 1500);
+    }, 1000);
   }, [pathname, search]);
 
   return null;

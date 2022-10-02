@@ -24,7 +24,7 @@ export const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
-      <Scroll />
+      <Scroll key={"scroll"} />
       <SnackbarProvider
         maxSnack={3}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
