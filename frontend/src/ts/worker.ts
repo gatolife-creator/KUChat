@@ -1,4 +1,4 @@
-import { Blockchain } from "./blockchain";
+import { Blockchain } from "./blockchain/blockchain";
 import { SearchEngine } from "./searchEngine";
 import { v4 as uuidv4 } from "uuid";
 

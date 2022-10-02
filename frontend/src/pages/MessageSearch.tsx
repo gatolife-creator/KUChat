@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { blockchain } from "../common/common";
-import { Transaction } from "../ts/transaction";
+import { Transaction } from "../ts/blockchain/transaction";
 
 import { SearchForm } from "../components/SearchForm";
 import { Container } from "@mui/material";

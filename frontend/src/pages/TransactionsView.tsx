@@ -5,10 +5,8 @@ import CustomLinkify from "../components/CustomLinkify";
 import TipDialog from "../components/FormDialog";
 import { Grid } from "react-loader-spinner";
 
-import { blockchain } from "../common/common";
-import { katana } from "../common/common";
+import { blockchain, katana } from "../common/common";
 import { Transaction } from "../ts/blockchain/transaction";
-import { Blockchain } from "../ts/blockchain/blockchain";
 
 export const TransactionsView = () => {
   const search = useLocation().search;
@@ -21,11 +19,13 @@ export const TransactionsView = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
-    const transactions = blockchain.getTransactionsBetweenTwo(
-      fromAddress,
-      toAddress
-    );
-    setTransactions(transactions);
+    katana.on(() => {
+      const transactions = blockchain.getTransactionsBetweenTwo(
+        toAddress,
+        fromAddress
+      );
+      setTransactions(transactions);
+    });
 
     setTimeout(() => {
       setIsLoading(false);

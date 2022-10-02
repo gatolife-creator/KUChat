@@ -4,14 +4,24 @@
 import { Dexie } from "dexie";
 import { io } from "socket.io-client";
 
+
+class DexieExtend extends Dexie {
+    name: string;
+    store: Dexie.Table;
+    constructor(name: string) {
+        super(name);
+        this.name = name;
+    }
+}
+
 export class Katana {
     name: string;
-    db: Dexie;
+    db: DexieExtend;
     socket: any;
 
     constructor(name: string) {
         this.name = name;
-        this.db = new Dexie(name);
+        this.db = new DexieExtend(name);
         this.db
             .version(1)
             .stores({
@@ -53,8 +63,12 @@ export class Katana {
      * @param callback 
      */
     on(callback: Function) {
-        this.socket.on("update", (message) => {
-            callback(message);
+        this.get("key").then((data) => {
+            callback(data);
+        })
+        
+        this.socket.on("update", (data) => {
+            callback(data);
         })
     }
 }
