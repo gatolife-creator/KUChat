@@ -8,6 +8,7 @@ import { ChatInput } from "../components/ChatInput";
 import TipDialog from "../components/FormDialog";
 
 import { Button } from "@mui/material";
+import { useSnackbar } from "notistack";
 import SendIcon from "@mui/icons-material/Send";
 import { Grid } from "react-loader-spinner";
 
@@ -28,6 +29,8 @@ export const Chat = () => {
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   useLayoutEffect(() => {
     katana.on(() => {
@@ -64,9 +67,9 @@ export const Chat = () => {
       message.value = "";
     } catch (error) {
       if (error.message.includes("無効なメッセージです")) {
-        window.alert(
-          "不適切な言葉が含まれている可能性があります。\n文章を改めて送信してください。"
-        );
+        enqueueSnackbar("不適切な言葉が検出されました。", {
+          variant: "warning",
+        });
       }
     }
   };
