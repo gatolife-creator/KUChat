@@ -28,12 +28,12 @@ if (localStorage.getItem("privateKey")) {
 export const katana = new Katana("database");
 katana.get("key").then((data: BlockchainData) => {
     const tmpBlockchain = Blockchain.jsonToBlockchain(data.value);
-    blockchain.replaceChain(tmpBlockchain.chain);
+    blockchain.replaceChain(tmpBlockchain);
 });
 
 katana.on((data: BlockchainData) => {
     const tmpBlockchain = Blockchain.jsonToBlockchain(data.value);
-    blockchain.replaceChain(tmpBlockchain.chain);
+    blockchain.replaceChain(tmpBlockchain);
     katana.put("key", JSON.stringify(blockchain));
     console.log(blockchain);
 });

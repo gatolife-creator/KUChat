@@ -68,10 +68,10 @@ export class Transaction {
             throw new Error(`PIIを含んでいます${this.message}`);
         }
 
-        if (this.message.length <= 1) {
-            console.warn("文字数が不十分です");
-            throw new Error(`文字数が不十分です${this.message}`);
-        }
+        // if (this.message.length <= 1) {
+        //     console.warn("文字数が不十分です");
+        //     throw new Error(`文字数が不十分です${this.message}`);
+        // }
 
         if (this.from === "System") return true;
 
