@@ -20,7 +20,6 @@ import { katana } from "../common/common";
 // NOTE 直近のトランザクションだけを読み込むようにしたいが、ブロックチェーン上だとちょっとめんどくさそう。
 // TODO 使い道は考えていないが、チャットの内容を公開鍵と秘密鍵を使って暗号化できるようにしてみたい。これをすることで、受信者と送信者以外の人には見れないメッセージを作り出すことができる。
 // NOTE 入力欄の自動フォーカス機能は、Androidでは使い勝手が良くないらしい。
-// NOTE katana.onをcommon.tsに移動したため、相手からの送信があっても画面が更新されず、自身が送信した際に更新されるようになってしまった。
 
 export const Chat = () => {
   const search = useLocation().search;
@@ -65,6 +64,10 @@ export const Chat = () => {
       );
       setTransactions(transactions);
       message.value = "";
+
+      document
+      .querySelector("#scroll-target")
+      ?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       if (error.message.includes("無効なメッセージです")) {
         enqueueSnackbar("不適切な言葉が検出されました。", {
@@ -143,6 +146,7 @@ export const Chat = () => {
             <React.Fragment key={index}></React.Fragment>
           )
         )}
+        <div id="scroll-target"></div>
       </motion.main>
       <motion.footer
         className="chat-footer"

@@ -3,6 +3,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { SnackbarProvider } from "notistack";
 
+import { Scroll } from "./Scroll";
+
 import { Home } from "../pages/Home";
 import { Signin } from "../pages/Signin";
 import { Signup } from "../pages/Signup";
@@ -22,6 +24,7 @@ export const AnimatedRoutes = () => {
 
   return (
     <AnimatePresence mode="wait">
+      <Scroll />
       <SnackbarProvider
         maxSnack={3}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
