@@ -6,7 +6,6 @@ import { PIIDetector } from "../PIIDetector";
 const secp256k1 = new ec("secp256k1");
 
 // TODO 正規表現によって個人情報を保護するのには限界があるから、また別の手立てを考えないといけない（学校関係者であることがわかるようにする仕組み）。
-// TODO たとえば100くらいの学校に関係する質問を用意して、ランダムに何問か解答させるようにするのはどうだろうか。
 // TODO 参考: https://dic.nicovideo.jp/a/%E3%83%8D%E3%83%83%E3%83%88%E3%82%B9%E3%83%A9%E3%83%B3%E3%82%B0%E3%81%AE%E4%B8%80%E8%A6%A7
 // TODO 参考: https://qiita.com/grrrr/items/0b35b5c1c98eebfa5128
 
@@ -61,13 +60,18 @@ export class Transaction {
 
         if (!purifier.isPure(this.message)) {
             console.warn("NGワードを含んでいます");
-            throw new Error(`無効なメッセージです${this.message}`);
+            throw new Error(`NGワードを含んでいます${this.message}`);
         }
 
         if (piidetector.includePII(this.message)) {
             console.warn("PIIを含んでいます");
-            throw new Error(`無効なメッセージです${this.message}`);
+            throw new Error(`PIIを含んでいます${this.message}`);
         }
+
+        // if (this.message.length <= 1) {
+        //     console.warn("文字数が不十分です");
+        //     throw new Error(`文字数が不十分です${this.message}`);
+        // }
 
         if (this.from === "System") return true;
 

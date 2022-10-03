@@ -184,14 +184,24 @@ export class Blockchain {
         return blockchain;
     }
 
-    replaceChain(chain: Block[]): void | boolean {
-        const anotherBlockchain = new Blockchain();
-        anotherBlockchain.chain = chain;
-        if (!anotherBlockchain.isChainValid()) return false;
+    replaceChain(blockchain: Blockchain): void {
+        // TODO チェーン交換の際に、破棄されるチェーンのトランザクションの中で、存続するチェーンに存在しないトランザクションのみをペンディングトランザクションに追加したい。
+        const transactions = this.extractTransactions();
+        const anotherTransactions = blockchain.extractTransactions();
 
-        if (chain.length <= this.chain.length) return false;
-
-        this.chain = chain;
+        if (!blockchain.isChainValid()) {
+            console.warn("このブロックチェーンは無効です");
+        } else if (blockchain.chain.length <= this.chain.length) {
+            const array = anotherTransactions.filter(i => transactions.indexOf(i) !== -1);
+            console.log("重複していないトランザクション: ", array);
+            this.pendingTransactions.push(...array);
+        } else {
+            const array = transactions.filter(i => anotherTransactions.indexOf(i) !== -1);
+            console.log("重複していないトランザクション: ", array);
+            this.pendingTransactions.push(...array);
+            this.chain = blockchain.chain;
+        }
+        this.updatePendingTransactions(blockchain.pendingTransactions);
     }
 
     updatePendingTransactions(transactions: Transaction[]): void {

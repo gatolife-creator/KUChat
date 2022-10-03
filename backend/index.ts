@@ -33,7 +33,7 @@ io.on("connection", (socket: Socket) => {
   socket.on("update", (data: any) => {
     try {
       // NOTE ブロックチェーンの交換のせいで、一部のトランザクションが消滅する事態が発生しているかもしれない
-      blockchain.replaceChain(Blockchain.jsonToBlockchain(data.value).chain);
+      blockchain.replaceChain(Blockchain.jsonToBlockchain(data.value));
       socket.broadcast.emit("update", { key: "key", value: JSON.stringify(blockchain) });
     } catch (err: unknown) {
       if (err instanceof Error) {

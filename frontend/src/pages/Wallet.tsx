@@ -6,9 +6,13 @@ import { Container } from "@mui/material";
 import { IconButton } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
 
+import {useSnackbar} from "notistack";
+
 import { wallet } from "../common/common";
 
 export const WalletView = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -32,7 +36,9 @@ export const WalletView = () => {
               <CopyToClipboard
                 text={wallet.publicKey}
                 onCopy={() =>
-                  alert(`クリップボードに アドレス をコピーしました！`)
+                  enqueueSnackbar("クリップボードにコピーされました", {
+                    variant: "success",
+                  })
                 }
               >
                 <IconButton>
