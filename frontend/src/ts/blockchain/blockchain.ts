@@ -1,13 +1,14 @@
 import { Transaction } from "./transaction";
 import { Block } from "./block";
+import { HashTable } from "./hashTable";
 
 export class Blockchain {
     chain: Block[];
-    pendingTransactions: Transaction[];
+    pendingTransactions: HashTable<Transaction>;
 
     constructor() {
         this.chain = [Blockchain.createGenesisBlock()];
-        this.pendingTransactions = [];
+        this.pendingTransactions = new HashTable<Transaction>();
     }
 
     static createGenesisBlock(): Block {
@@ -19,7 +20,6 @@ export class Blockchain {
     }
 
     addTransaction(transaction: Transaction): void {
-
         if (!transaction.from || !transaction.to) {
             throw new Error("トランザクションはfromアドレスとtoアドレスが必要です。");
         }
@@ -41,19 +41,20 @@ export class Blockchain {
             throw new Error('十分な残高がありません。');
         }
 
-        this.pendingTransactions.push(transaction);
+        this.pendingTransactions.put(transaction);
     }
 
     minePendingTransactions(miningRewardAddress: string): void {
         const rewardTx = new Transaction("System", miningRewardAddress, 100, "reward");
-        this.pendingTransactions.push(rewardTx);
+        this.pendingTransactions.put(rewardTx);
 
-        const block = new Block(this.getLatestBlock().hash, this.pendingTransactions);
+        const transactions = this.pendingTransactions.extract();
+        const block = new Block(this.getLatestBlock().hash, transactions);
         block.validateBlock();
 
         this.chain.push(block);
 
-        this.pendingTransactions = [];
+        this.pendingTransactions = new HashTable<Transaction>();
     }
 
     getBalanceOfAddress(address: string): number {
@@ -81,6 +82,21 @@ export class Blockchain {
             const block = this.chain[i];
             for (let j = 0; j < block.transactions.length; j++) {
                 transactions.push(block.transactions[j]);
+            }
+        }
+        return transactions;
+    }
+
+    extractTransactionsWithoutReward() {
+        const transactions: Transaction[] = [];
+        const len = this.chain.length;
+        for (let i = 0; i < len; i++) {
+            const block = this.chain[i];
+            for (let j = 0; j < block.transactions.length; j++) {
+                const trans = block.transactions[j];
+                if(trans.from !== "System") {
+                    transactions.push(block.transactions[j]);
+                }
             }
         }
         return transactions;
@@ -141,6 +157,7 @@ export class Blockchain {
             }
 
             // NOTE しっかりと動作するかの確証はない
+            // NOTE オブジェクトであるためか、正常に動作していない
             const transactions = this.extractTransactions();
             const transactionsSet = new Set(transactions);
             if (transactionsSet.size !== transactions.length) {
@@ -156,9 +173,9 @@ export class Blockchain {
         const blockchain = Object.assign(new Blockchain(), tmp);
 
         // 保留中のトランザクションの情報を引き継ぐ
-        const pendingTransactions = blockchain.pendingTransactions.map(
+        const pendingTransactions = new HashTable<Transaction>(Array.from(blockchain.pendingTransactions.table).map(
             (transaction: any) => new Transaction(transaction.from, transaction.to, transaction.amount, transaction.message)
-        );
+        ));
 
         // チェーンの情報を引き継ぐ
         const chain = blockchain.chain.map(
@@ -186,30 +203,49 @@ export class Blockchain {
 
     replaceChain(blockchain: Blockchain): void {
         // TODO チェーン交換の際に、破棄されるチェーンのトランザクションの中で、存続するチェーンに存在しないトランザクションのみをペンディングトランザクションに追加したい。
-        const transactions = this.extractTransactions();
-        const anotherTransactions = blockchain.extractTransactions();
+        // NOTE 一応疎外されたトランザクションをペンディングトランザクションに戻すことはできたようだが、マイニング報酬のトランザクションまでがペンディングトランザクションに戻されているようだ。
+        const transactions = this.extractTransactionsWithoutReward();
+        const anotherTransactions = blockchain.extractTransactionsWithoutReward();
+
+        const hashTable1 = new HashTable(transactions);
+        const hashTable2 = new HashTable(anotherTransactions);
+        const result: Transaction[] = [];
 
         if (!blockchain.isChainValid()) {
             console.warn("このブロックチェーンは無効です");
+
         } else if (blockchain.chain.length <= this.chain.length) {
-            const array = anotherTransactions.filter(i => transactions.indexOf(i) !== -1);
-            console.log("重複していないトランザクション: ", array);
-            this.pendingTransactions.push(...array);
+            /* 
+            受け取ったチェーンの長さが自分のチェーン以下であった場合、
+            受け取ったチェーンのトランザクションを吸収する
+            */
+            for (const transaction of anotherTransactions) {
+                if (!hashTable1.has(transaction)) {
+                    result.push();
+                }
+            }
+            console.log("重複していないトランザクション: ", transactions);
+            this.pendingTransactions.bulkPut(transactions);
+
         } else {
-            const array = transactions.filter(i => anotherTransactions.indexOf(i) !== -1);
-            console.log("重複していないトランザクション: ", array);
-            this.pendingTransactions.push(...array);
+            /*
+                受け取ったチェーンの長さが自分のチェーンより大き場合、
+                受け取ったチェーンが自分のトランザクションを吸収する
+            */
+            for (const transaction of transactions) {
+                if (!hashTable2.has(transaction)) {
+                    result.push(transaction);
+                }
+            }
+            console.log("重複していないトランザクション: ", transactions);
+            this.pendingTransactions.bulkPut(transactions);
             this.chain = blockchain.chain;
         }
-        this.updatePendingTransactions(blockchain.pendingTransactions);
-    }
-
-    updatePendingTransactions(transactions: Transaction[]): void {
-        this.pendingTransactions = Array.from(new Set(this.pendingTransactions.concat(transactions)));
+        this.pendingTransactions.merge(blockchain.pendingTransactions);
     }
 
     selfDestruct(): void {
         this.chain = [];
-        this.pendingTransactions = [];
+        this.pendingTransactions = new HashTable<Transaction>();
     }
 }
