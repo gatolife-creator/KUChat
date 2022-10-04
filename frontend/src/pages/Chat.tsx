@@ -53,7 +53,12 @@ export const Chat = () => {
 
     try {
       blockchain.minePendingTransactions(wallet.publicKey);
-      const trans = wallet.createTransaction(address.value, 10, message.value.trim());
+      const trans = wallet.createTransaction(
+        address.value,
+        10,
+        message.value.trim()
+      );
+      console.log(blockchain);
       blockchain.addTransaction(trans);
       blockchain.minePendingTransactions(wallet.publicKey);
       katana.put("key", JSON.stringify(blockchain));
@@ -62,29 +67,32 @@ export const Chat = () => {
         wallet.publicKey,
         fromAddress
       );
+
       setTransactions(transactions);
       message.value = "";
 
       document
-      .querySelector("#scroll-target")
-      ?.scrollIntoView({ behavior: "smooth" });
-    } catch (error) {
-      if (error.message.includes("NGワードを含んでいます")) {
-        enqueueSnackbar("不適切な言葉が検出されました", {
-          variant: "info",
-        });
-      }
-      
-      if (error.message.includes("PIIを含んでいます")) {
-        enqueueSnackbar("個人情報が検出されました", {
-          variant: "info",
-        });
-      }
+        .querySelector("#scroll-target")
+        ?.scrollIntoView({ behavior: "smooth" });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        if (error.message.includes("NGワードを含んでいます")) {
+          enqueueSnackbar("不適切な言葉が検出されました", {
+            variant: "info",
+          });
+        }
 
-      if (error.message.includes("文字数が不十分です")) {
-        enqueueSnackbar("文字数が不十分です", {
-          variant: "info",
-        });
+        if (error.message.includes("PIIを含んでいます")) {
+          enqueueSnackbar("個人情報が検出されました", {
+            variant: "info",
+          });
+        }
+
+        if (error.message.includes("文字数が不十分です")) {
+          enqueueSnackbar("文字数が不十分です", {
+            variant: "info",
+          });
+        }
       }
     }
   };
