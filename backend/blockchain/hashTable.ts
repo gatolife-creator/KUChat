@@ -41,6 +41,10 @@ export class HashTable<T> {
         this.table = { ...this.table, ...hashTable.table };
     }
 
+    getLength(): number {
+        return Object.keys(this.table).length;
+    }
+
     static isEqual(data1: never, data2: never) {
         const hash1 = SHA1(data1);
         const hash2 = SHA1(data2);

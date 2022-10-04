@@ -20,6 +20,8 @@ export class Blockchain {
     }
 
     addTransaction(transaction: Transaction): void {
+        // TODO チェーンに含まれていないトランザクションのみ追加すること
+        // NOTE どこに原因があるのか正確にはわからないが、おそらくこのメソッドのせいで、チェーンとペンディングリストに同じトランザクションが存在してしまっている
         if (!transaction.from || !transaction.to) {
             throw new Error("トランザクションはfromアドレスとtoアドレスが必要です。");
         }
@@ -45,6 +47,7 @@ export class Blockchain {
     }
 
     minePendingTransactions(miningRewardAddress: string): void {
+        // TODO チェーンに含まれていないトランザクションのみ追加すること
         const rewardTx = new Transaction("System", miningRewardAddress, 100, "reward");
         this.pendingTransactions.put(rewardTx);
 
@@ -94,7 +97,7 @@ export class Blockchain {
             const block = this.chain[i];
             for (let j = 0; j < block.transactions.length; j++) {
                 const trans = block.transactions[j];
-                if(trans.from !== "System") {
+                if (trans.from !== "System") {
                     transactions.push(block.transactions[j]);
                 }
             }
@@ -156,11 +159,9 @@ export class Blockchain {
                 return false;
             }
 
-            // NOTE しっかりと動作するかの確証はない
-            // NOTE オブジェクトであるためか、正常に動作していない
             const transactions = this.extractTransactions();
-            const transactionsSet = new Set(transactions);
-            if (transactionsSet.size !== transactions.length) {
+            const hashTable = new HashTable(transactions);
+            if (hashTable.getLength() !== transactions.length) {
                 console.warn("トランザクションに重複があります。");
                 return false;
             }
@@ -202,8 +203,6 @@ export class Blockchain {
     }
 
     replaceChain(blockchain: Blockchain): void {
-        // TODO チェーン交換の際に、破棄されるチェーンのトランザクションの中で、存続するチェーンに存在しないトランザクションのみをペンディングトランザクションに追加したい。
-        // NOTE 一応疎外されたトランザクションをペンディングトランザクションに戻すことはできたようだが、マイニング報酬のトランザクションまでがペンディングトランザクションに戻されているようだ。
         const transactions = this.extractTransactionsWithoutReward();
         const anotherTransactions = blockchain.extractTransactionsWithoutReward();
 
