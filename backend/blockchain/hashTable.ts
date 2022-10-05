@@ -20,7 +20,7 @@ export class HashTable<T> {
     }
 
     has(data: T): boolean {
-        const hash = SHA1(String(data)).toString();
+        const hash = SHA1(JSON.stringify(data)).toString();
         return this.table.hasOwnProperty(hash);
     }
 

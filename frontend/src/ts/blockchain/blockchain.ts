@@ -1,6 +1,7 @@
 import { Transaction } from "./transaction";
 import { Block } from "./block";
 import { HashTable } from "./hashTable";
+import { SHA1 } from "crypto-js";
 
 export class Blockchain {
     chain: Block[];
@@ -47,11 +48,25 @@ export class Blockchain {
     }
 
     minePendingTransactions(miningRewardAddress: string): void {
-        // TODO チェーンに含まれていないトランザクションのみ追加すること
         const rewardTx = new Transaction("System", miningRewardAddress, 100, "reward");
         this.pendingTransactions.put(rewardTx);
+        const transactionsTable = new HashTable(this.extractTransactions());
+        console.log('transactionsTable :>> ', transactionsTable);
 
-        const transactions = this.pendingTransactions.extract();
+        const pendingTransactions = this.pendingTransactions.extract();
+
+        const transactions: Transaction[] = [];
+
+        for (const transaction of pendingTransactions) {
+            if (!transactionsTable.has(transaction)) {
+                transactions.push(transaction);
+            } else {
+                console.log("重複してた");
+            }
+        }
+
+        console.log('チェーンに追加するtransactions :>> ', transactions);
+
         const block = new Block(this.getLatestBlock().hash, transactions);
         block.validateBlock();
 
@@ -169,6 +184,59 @@ export class Blockchain {
         return true;
     }
 
+
+    replaceChain(blockchain: Blockchain): void {
+        // チェーン上のトランザクションを取得
+        const transactions = this.extractTransactionsWithoutReward();
+        const anotherTransactions = blockchain.extractTransactionsWithoutReward();
+
+        // チェーン上のトランザクションからハッシュテーブルを作成
+        const hashTable1 = new HashTable(transactions);
+        const hashTable2 = new HashTable(anotherTransactions);
+
+        // 重複しなかったトランザクションリスト
+        const result: Transaction[] = [];
+
+        if (!blockchain.isChainValid()) {
+            console.warn("このブロックチェーンは無効です");
+
+        } else if (blockchain.chain.length <= this.chain.length) {
+            /* 
+            受け取ったチェーンの長さが自分のチェーン以下であった場合、
+            受け取ったチェーンのトランザクションを吸収する
+            */
+            for (const transaction of anotherTransactions) {
+                // 自分のチェーンに相手のトランザクションが存在しなければ
+                if (!hashTable1.has(transaction)) {
+                    // そのチェーン
+                    result.push();
+                }
+            }
+        } else {
+            /*
+            受け取ったチェーンの長さが自分のチェーンより大きい場合、
+            受け取ったチェーンが自分のトランザクションを吸収する
+            */
+            for (const transaction of transactions) {
+                // 相手のチェーンに自分のチェーンのトランザクションが存在しなければ
+                if (!hashTable2.has(transaction)) {
+                    // そのチェーンを相手のペンディングリストに追加する。
+                    result.push(transaction);
+                }
+            }
+            this.chain = blockchain.chain;
+        }
+        console.log("重複していないトランザクション: ", transactions);
+        this.pendingTransactions.bulkPut(transactions);
+
+        this.pendingTransactions.merge(blockchain.pendingTransactions);
+    }
+
+    selfDestruct(): void {
+        this.chain = [];
+        this.pendingTransactions = new HashTable<Transaction>();
+    }
+
     static jsonToBlockchain(json: string): Blockchain {
         const tmp = JSON.parse(json);
         const blockchain = Object.assign(new Blockchain(), tmp);
@@ -200,51 +268,5 @@ export class Blockchain {
         blockchain.chain = chain;
 
         return blockchain;
-    }
-
-    replaceChain(blockchain: Blockchain): void {
-        const transactions = this.extractTransactionsWithoutReward();
-        const anotherTransactions = blockchain.extractTransactionsWithoutReward();
-
-        const hashTable1 = new HashTable(transactions);
-        const hashTable2 = new HashTable(anotherTransactions);
-        const result: Transaction[] = [];
-
-        if (!blockchain.isChainValid()) {
-            console.warn("このブロックチェーンは無効です");
-
-        } else if (blockchain.chain.length <= this.chain.length) {
-            /* 
-            受け取ったチェーンの長さが自分のチェーン以下であった場合、
-            受け取ったチェーンのトランザクションを吸収する
-            */
-            for (const transaction of anotherTransactions) {
-                if (!hashTable1.has(transaction)) {
-                    result.push();
-                }
-            }
-            console.log("重複していないトランザクション: ", transactions);
-            this.pendingTransactions.bulkPut(transactions);
-
-        } else {
-            /*
-                受け取ったチェーンの長さが自分のチェーンより大き場合、
-                受け取ったチェーンが自分のトランザクションを吸収する
-            */
-            for (const transaction of transactions) {
-                if (!hashTable2.has(transaction)) {
-                    result.push(transaction);
-                }
-            }
-            console.log("重複していないトランザクション: ", transactions);
-            this.pendingTransactions.bulkPut(transactions);
-            this.chain = blockchain.chain;
-        }
-        this.pendingTransactions.merge(blockchain.pendingTransactions);
-    }
-
-    selfDestruct(): void {
-        this.chain = [];
-        this.pendingTransactions = new HashTable<Transaction>();
     }
 }
