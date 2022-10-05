@@ -27,8 +27,7 @@ if (localStorage.getItem("privateKey")) {
 
 export const katana = new Katana("database");
 katana.get("key").then((data: BlockchainData) => {
-    const tmpBlockchain = Blockchain.jsonToBlockchain(data.value);
-    blockchain.replaceChain(tmpBlockchain);
+    blockchain = Blockchain.jsonToBlockchain(data.value);
 });
 
 katana.on((data: BlockchainData) => {

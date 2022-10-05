@@ -50,7 +50,6 @@ export class Blockchain {
         const rewardTx = new Transaction("System", miningRewardAddress, 100, "reward");
         this.pendingTransactions.put(rewardTx);
         const transactionsTable = new HashTable(this.extractTransactions());
-        console.log('transactionsTable :>> ', transactionsTable);
 
         const pendingTransactions = this.pendingTransactions.extract();
 
@@ -59,8 +58,6 @@ export class Blockchain {
         for (const transaction of pendingTransactions) {
             if (!transactionsTable.has(transaction)) {
                 transactions.push(transaction);
-            } else {
-                console.log("重複してた");
             }
         }
 
@@ -191,7 +188,7 @@ export class Blockchain {
         const hashTable1 = new HashTable(transactions);
         const hashTable2 = new HashTable(anotherTransactions);
 
-        // チェーン上とペンディングリストを合成
+        // チェーン上のトランザクションとペンディングリストを合成
         hashTable1.merge(this.pendingTransactions);
         hashTable2.merge(blockchain.pendingTransactions);
 
@@ -203,6 +200,7 @@ export class Blockchain {
             console.warn("このブロックチェーンは無効です");
 
         } else if (blockchain.chain.length <= this.chain.length) {
+            console.log("smaller");
             /* 
             受け取ったチェーンの長さが自分のチェーン以下であった場合、
             受け取ったチェーンのトランザクションを吸収する
@@ -214,6 +212,7 @@ export class Blockchain {
                     result.push(transaction);
                 }
             }
+            this.pendingTransactions.bulkPut(result);
         } else {
             /*
             受け取ったチェーンの長さが自分のチェーンより大きい場合、
@@ -227,8 +226,8 @@ export class Blockchain {
                 }
             }
             this.chain = blockchain.chain;
+            this.pendingTransactions.bulkPut(result);
         }
-        this.pendingTransactions.bulkPut(transactions);
     }
 
     selfDestruct(): void {
