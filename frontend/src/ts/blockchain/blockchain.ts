@@ -1,7 +1,6 @@
 import { Transaction } from "./transaction";
 import { Block } from "./block";
 import { HashTable } from "./hashTable";
-import { SHA1 } from "crypto-js";
 
 export class Blockchain {
     chain: Block[];
@@ -64,8 +63,6 @@ export class Blockchain {
                 console.log("重複してた");
             }
         }
-
-        console.log('チェーンに追加するtransactions :>> ', transactions);
 
         const block = new Block(this.getLatestBlock().hash, transactions);
         block.validateBlock();
@@ -186,13 +183,18 @@ export class Blockchain {
 
 
     replaceChain(blockchain: Blockchain): void {
-        // チェーン上のトランザクションを取得
+        // チェーン上のトランザクション
         const transactions = this.extractTransactionsWithoutReward();
         const anotherTransactions = blockchain.extractTransactionsWithoutReward();
 
-        // チェーン上のトランザクションからハッシュテーブルを作成
+        // チェーン上トランザクションからハッシュテーブルを作成
         const hashTable1 = new HashTable(transactions);
         const hashTable2 = new HashTable(anotherTransactions);
+
+        // チェーン上とペンディングリストを合成
+        hashTable1.merge(this.pendingTransactions);
+        hashTable2.merge(blockchain.pendingTransactions);
+
 
         // 重複しなかったトランザクションリスト
         const result: Transaction[] = [];
@@ -208,8 +210,8 @@ export class Blockchain {
             for (const transaction of anotherTransactions) {
                 // 自分のチェーンに相手のトランザクションが存在しなければ
                 if (!hashTable1.has(transaction)) {
-                    // そのチェーン
-                    result.push();
+                    // そのチェーンを自分のペンディングリストに追加する
+                    result.push(transaction);
                 }
             }
         } else {
@@ -226,10 +228,7 @@ export class Blockchain {
             }
             this.chain = blockchain.chain;
         }
-        console.log("重複していないトランザクション: ", transactions);
         this.pendingTransactions.bulkPut(transactions);
-
-        this.pendingTransactions.merge(blockchain.pendingTransactions);
     }
 
     selfDestruct(): void {
