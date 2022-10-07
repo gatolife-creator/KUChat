@@ -1,6 +1,7 @@
 import { Transaction } from "./transaction";
 import { Block } from "./block";
 import { HashTable } from "./hashTable";
+import { coloredLog } from "../utility";
 
 export class Blockchain {
     chain: Block[];
@@ -200,7 +201,7 @@ export class Blockchain {
             console.warn("このブロックチェーンは無効です");
 
         } else if (blockchain.chain.length <= this.chain.length) {
-            console.log("smaller");
+            coloredLog("smaller", "blue");
             /* 
             受け取ったチェーンの長さが自分のチェーン以下であった場合、
             受け取ったチェーンのトランザクションを吸収する
@@ -212,8 +213,10 @@ export class Blockchain {
                     result.push(transaction);
                 }
             }
+            // NOTE ここの挙動怪しい、図解して整理すること
             this.pendingTransactions.bulkPut(result);
         } else {
+            coloredLog("bigger", "blue");
             /*
             受け取ったチェーンの長さが自分のチェーンより大きい場合、
             受け取ったチェーンが自分のトランザクションを吸収する
@@ -225,8 +228,9 @@ export class Blockchain {
                     result.push(transaction);
                 }
             }
+            blockchain.pendingTransactions.bulkPut(result);
             this.chain = blockchain.chain;
-            this.pendingTransactions.bulkPut(result);
+            this.pendingTransactions = blockchain.pendingTransactions;
         }
     }
 
