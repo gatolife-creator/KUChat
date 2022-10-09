@@ -15,6 +15,7 @@
         "@testing-library/user-event": "^13.5.0",
         "@types/lunr": "^2.3.4",
         "bip39": "^3.0.4",
+        "boring-avatars": "^1.7.0",
         "crypto-js": "^4.1.1",
         "daisyui": "^2.31.0",
         "dexie": "^3.2.2",

@@ -1,7 +1,4 @@
 import { motion } from "framer-motion";
-import { ActionAreaCard } from "../components/ActionAreaCard";
-import { Grid } from "@mui/material";
-import { Container } from "@mui/material";
 import React from "react";
 import { Card } from "../components/Card";
 
@@ -11,9 +8,10 @@ export const Home = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      className="mx-auto w-11/12"
     >
-      {/* <Container maxWidth="lg" sx={{ paddingTop: "100px" }}> */}
-        <Grid container columns={{ xs: 4, sm: 8, md: 12 }}>
+      <div className="container pt-36">
+        <div className="mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           <Card
             title="チャット"
             paragraph="他の人をチャットをしたり、仮想通貨をプレゼントすることができます。勉強とかに役立ててみよう。"
@@ -38,8 +36,8 @@ export const Home = () => {
             btnTitle="見る"
             link="/word-list"
           />
-        </Grid>
-      {/* </Container> */}
+        </div>
+      </div>
     </motion.main>
   );
 };

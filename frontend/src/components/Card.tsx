@@ -9,12 +9,14 @@ export const Card = (props: {
 }) => {
   const { title, paragraph, btnTitle, link } = props;
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="card mx-auto inline-block w-5/6 bg-success">
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p>{paragraph}</p>
         <div className="card-actions justify-end">
-          <Link to={link} className="btn">{btnTitle}</Link>
+          <Link to={link} className="btn">
+            {btnTitle}
+          </Link>
         </div>
       </div>
     </div>
