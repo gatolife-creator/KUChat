@@ -34,11 +34,11 @@ export const Contacts = () => {
           name="address"
         />
         <br />
-        <div className="w-full overflow-x-auto">
+        <div className="w-full overflow-x-auto py-10">
           <table className="table w-full">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Address</th>
                 <th>Message</th>
               </tr>
             </thead>
@@ -65,7 +65,9 @@ export const Contacts = () => {
                         <div>
                           <div className="font-bold">
                             <Link to={`/chat?address=${correspondent}`}>
-                              {correspondent}
+                              {correspondent.length > 15
+                                ? correspondent.substring(0, 15) + "..."
+                                : correspondent}
                             </Link>
                           </div>
                         </div>
@@ -83,6 +85,12 @@ export const Contacts = () => {
                 <></>
               )}
             </tbody>
+            <tfoot>
+              <tr>
+                <th>Address</th>
+                <th>Message</th>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </Container>

@@ -6,7 +6,7 @@ export const SearchForm = (props) => {
 
   return (
     <form className="form-control" onSubmit={(e) => action(e)}>
-      <div className="input-group">
+      <div className="input-group shadow-lg">
         <input
           type="text"
           placeholder={placeholder}

@@ -9,7 +9,7 @@ export const Card = (props: {
 }) => {
   const { title, paragraph, btnTitle, link } = props;
   return (
-    <div className="card mx-auto inline-block w-5/6 bg-success">
+    <div className="card mx-auto inline-block w-5/6 bg-accent">
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p>{paragraph}</p>
