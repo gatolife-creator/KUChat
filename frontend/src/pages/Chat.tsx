@@ -7,9 +7,7 @@ import CustomLinkify from "../components/CustomLinkify";
 import { ChatInput } from "../components/ChatInput";
 import TipDialog from "../components/FormDialog";
 
-import { Button } from "@mui/material";
 import { useSnackbar } from "notistack";
-import SendIcon from "@mui/icons-material/Send";
 import { Grid } from "react-loader-spinner";
 
 import { blockchain } from "../common/common";
@@ -123,7 +121,7 @@ export const Chat = () => {
   ) : (
     <>
       <motion.main
-        className="chat-main"
+        className="chat-main bg-base-100"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -132,7 +130,7 @@ export const Chat = () => {
         {transactions.map((transaction: Transaction, index) =>
           transaction.from === wallet.publicKey ? (
             <div className="chat-right-wrapper" key={index}>
-              <div className="chat-sentence">
+              <div className="chat-sentence px-3.5 py-1.5 bg-blue-300">
                 <CustomLinkify content={transaction.message} />
               </div>
               <small className="chat-timestamp">
@@ -147,7 +145,7 @@ export const Chat = () => {
             </div>
           ) : transaction.from === query.get("address") ? (
             <div className="chat-left-wrapper" key={index}>
-              <div className="chat-sentence">
+              <div className="chat-sentence px-3.5 py-1.5 bg-slate-300">
                 <CustomLinkify content={transaction.message} />
               </div>
               <TipDialog></TipDialog>
@@ -169,7 +167,7 @@ export const Chat = () => {
         <div id="scroll-target"></div>
       </motion.main>
       <motion.footer
-        className="chat-footer"
+        className="chat-footer bg-primary"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -200,14 +198,17 @@ export const Chat = () => {
             readOnly
           />
 
-          <Button
+          <button className="btn btn-success">
+            送信<i className="bi bi-send-fill ml-2 text-xl"></i>
+          </button>
+          {/* <Button
             variant="contained"
             color="success"
             type="submit"
             endIcon={<SendIcon />}
           >
             Send
-          </Button>
+          </Button> */}
         </form>
       </motion.footer>
     </>
