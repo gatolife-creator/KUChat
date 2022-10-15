@@ -13,8 +13,11 @@ export const SearchForm = (props) => {
           className="input input-bordered w-full"
           name={name}
         />
-        <Link to="/qrcode-reader" className="btn btn-square bg-primary hover:bg-primary-focus border-primary hover:border-primary-focus">
-          <i className="bi bi-qr-code-scan text-2xl"></i>
+        <Link
+          to="/qrcode-reader"
+          className="btn btn-square border-primary bg-primary hover:border-primary-focus hover:bg-primary-focus"
+        >
+          <span className="material-symbols-outlined text-3xl">qr_code_scanner</span>
         </Link>
         <button type="submit" className="btn btn-square">
           <svg

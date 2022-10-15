@@ -130,7 +130,7 @@ export const Chat = () => {
         {transactions.map((transaction: Transaction, index) =>
           transaction.from === wallet.publicKey ? (
             <div className="chat-right-wrapper" key={index}>
-              <div className="chat-sentence px-3.5 py-1.5 bg-blue-300">
+              <div className="chat-sentence bg-blue-300 px-3.5 py-1.5">
                 <CustomLinkify content={transaction.message} />
               </div>
               <small className="chat-timestamp">
@@ -145,7 +145,7 @@ export const Chat = () => {
             </div>
           ) : transaction.from === query.get("address") ? (
             <div className="chat-left-wrapper" key={index}>
-              <div className="chat-sentence px-3.5 py-1.5 bg-slate-300">
+              <div className="chat-sentence bg-slate-300 px-3.5 py-1.5">
                 <CustomLinkify content={transaction.message} />
               </div>
               <TipDialog></TipDialog>
@@ -199,16 +199,8 @@ export const Chat = () => {
           />
 
           <button className="btn btn-success">
-            送信<i className="bi bi-send-fill ml-2 text-xl"></i>
+            <span className="material-icons">send</span>
           </button>
-          {/* <Button
-            variant="contained"
-            color="success"
-            type="submit"
-            endIcon={<SendIcon />}
-          >
-            Send
-          </Button> */}
         </form>
       </motion.footer>
     </>

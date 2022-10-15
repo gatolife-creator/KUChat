@@ -49,16 +49,24 @@ export const Navbar = () => {
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-primary-content p-2 shadow"
           >
             <li>
-              <Link to="/setting">設定</Link>
+              <Link to="/wallet">
+                <span className="material-icons">wallet</span>ウォレット
+              </Link>
             </li>
             <li>
-              <Link to="/signin">ログアウト</Link>
+              <Link to="/history">
+                <span className="material-icons">history</span>履歴
+              </Link>
             </li>
             <li>
-              <Link to="/wallet">ウォレット</Link>
+              <Link to="/setting">
+                <span className="material-icons">settings</span>設定
+              </Link>
             </li>
             <li>
-              <Link to="/history">履歴</Link>
+              <Link to="/signin">
+                <span className="material-icons">logout</span>ログアウト
+              </Link>
             </li>
           </ul>
         </div>
