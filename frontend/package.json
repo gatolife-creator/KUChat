@@ -20,7 +20,7 @@
         "daisyui": "^2.51.6",
         "dexie": "^3.2.2",
         "elliptic": "^6.5.4",
-        "framer-motion": "^7.6.6",
+        "framer-motion": "^7.10.3",
         "gun": "^0.2020.1238",
         "lzutf8": "^0.6.3",
         "node-sass": "^7.0.3",
